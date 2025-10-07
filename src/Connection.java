@@ -3,19 +3,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Connection {
-    LocalTime departureTime;
-    LocalTime arrivalTime;
-    Double duration;
-    Double price;
-    String departureCity;
-    String arrivalCity;
-    int numOfRoutes;
+    private List<Route> routes;
+    private LocalTime departureTime;
+    private LocalTime arrivalTime;
+    private Double duration;
+    private Double price;
+    private String departureCity;
+    private String arrivalCity;
+    private int numOfRoutes;
     //Add parameter for Routes
 
     public Connection(){
 
     }
-    public Connection(LocalTime departureTime, LocalTime arrivalTime, Double duration, Double price, String departureCity, String arrivalCity, int numOdRoutes) {
+    public Connection(List<Route> routes, LocalTime departureTime, LocalTime arrivalTime, Double duration, Double price, String departureCity, String arrivalCity, int numOdRoutes) {
+        this.routes = routes;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.duration = duration;
@@ -24,6 +26,10 @@ public class Connection {
         this.arrivalCity = arrivalCity;
         this.numOfRoutes = numOdRoutes;
     }
+
+    public List<Route> getRoutes() {return routes;}
+
+    public List<Route> setRoutes(List<Route> routes) {return this.routes = routes;}
 
     public LocalTime getDepartureTime() {
         return departureTime;

@@ -1,17 +1,19 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class RouteCatalogue {
 
     // Attributes
     private List<Route> routes;
+    private Map<String, List<Route>> departureMap;
 
     // Constructor
-    public RouteCatalogue() {this.routes = new ArrayList<>();}
+    public RouteCatalogue() {
+        this.routes = new ArrayList<>();
+        this.departureMap = new HashMap<>();
+    }
 
     // Method to load the Route from the CSV into Route list
     public void loadRoutesFromCSV(String filename) {
@@ -50,9 +52,19 @@ public class RouteCatalogue {
             }
 
             System.out.println("Loaded " + routes.size() + " routes from CSV");
+            buildDepartureMap();
 
         } catch (Exception e) {
             System.out.println("Error loading CSV: " + e.getMessage());
+        }
+    }
+
+    // Method to make a map to search by departure city
+    private void buildDepartureMap() {
+        departureMap.clear();
+        for (Route route : routes) {
+            String city = route.getDepartureCity();
+            departureMap.computeIfAbsent(city, k -> new ArrayList<>()).add(route);
         }
     }
 
@@ -143,7 +155,13 @@ public class RouteCatalogue {
         return fields.toArray(new String[0]);
     }
 
+    // Method to get all the routes from the catalogue
     public List<Route> getAllRoutes() {
         return new ArrayList<>(routes);
+    }
+
+    // Method to get all routes departing from a specific city
+    public List<Route> getRoutesFromCity(String city) {
+        return departureMap.getOrDefault(city, new ArrayList<>());
     }
 }
