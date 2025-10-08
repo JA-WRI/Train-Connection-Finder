@@ -1,15 +1,15 @@
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
         RouteCatalogue catalogue = new RouteCatalogue();
-        Connection connect = new Connection();
+        Connection connections = new Connection();
+        CSVReader.loadRoutesFromCSV("data/eu_rail_network.csv", catalogue);
 
-        // Load the CSV file
-        catalogue.loadRoutesFromCSV("data/eu_rail_network.csv");
 
         // Get all the routes (TEST)
-        List<Route> allRoutes = catalogue.getAllRoutes();
+        Map<String, List<Route>> allRoutes = catalogue.getRoutesCatalogue();
         System.out.println("Total routes: " + allRoutes.size());
 
 //        for (Route route : allRoutes) {
@@ -17,7 +17,7 @@ public class Main {
 //        }
 
 
-        List<Route> connection = connect.searchConnections("Amsterdam", "Bruges", catalogue);
+        List<Route> connection = connections.searchConnections("Amsterdam", "Bruges", catalogue);
 
         for(Route route: connection){
             System.out.println(route);
