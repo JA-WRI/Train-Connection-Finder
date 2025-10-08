@@ -10,7 +10,7 @@ public class Connection {
     String departureCity;
     String arrivalCity;
     int numOfRoutes;
-    //Add parameter for Routes
+    List<Route> routes;
 
     public Connection(){
 
@@ -80,27 +80,5 @@ public class Connection {
     public void setNumOdRoutes(int numOdRoutes) {
         this.numOfRoutes = numOdRoutes;
     }
-
-    public List<Route> searchConnections(String departureCity, String arrivalCity, RouteCatalogue catalogue) {
-        List<Route> connections = new ArrayList<>();
-
-        // Get routes that depart from this city (directly from the map)
-        List<Route> departingRoutes = catalogue.getRoutesCatalogue().getOrDefault(departureCity, new ArrayList<>());
-
-        // If none exist, return an empty list
-        if (departingRoutes.isEmpty()) {
-            return connections;
-        }
-
-        // Otherwise, filter for those that arrive at the destination
-        for (Route route : departingRoutes) {
-            if (route.getArrivalCity().equalsIgnoreCase(arrivalCity)) {
-                connections.add(route);
-            }
-        }
-
-        return connections;
-    }
-
 
 }

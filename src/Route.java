@@ -54,14 +54,24 @@ public class Route {
     public void setArriveNextDay(boolean arriveNextDay) {this.arriveNextDay = arriveNextDay;}
 
     @Override
+//    public String toString() {
+//        String arrivalDisplay = arriveNextDay ?
+//                arrivalTime + " (+1d)" :
+//                arrivalTime.toString();
+//
+//        return String.format("Route %s: %s to %s | %s - %s | Train: %s | Days: %s | 1st: €%.2f | 2nd: €%.2f",
+//                routeID, departureCity, arrivalCity, departureTime, arrivalDisplay,
+//                trainType, daysOfOperation, firstClassTicketRate, secondClassTicketRate);
+//    }
     public String toString() {
-        String arrivalDisplay = arriveNextDay ?
+                String arrivalDisplay = arriveNextDay ?
                 arrivalTime + " (+1d)" :
                 arrivalTime.toString();
-
-        return String.format("Route %s: %s to %s | %s - %s | Train: %s | Days: %s | 1st: €%.2f | 2nd: €%.2f",
+        return String.format("Route %s: %s to %s | %s - %s | Days: %s |",
                 routeID, departureCity, arrivalCity, departureTime, arrivalDisplay,
-                trainType, daysOfOperation, firstClassTicketRate, secondClassTicketRate);
+                 daysOfOperation);
     }
+
+
 
 }
