@@ -3,21 +3,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Connection {
-    private List<Route> routes;
-    private LocalTime departureTime;
-    private LocalTime arrivalTime;
-    private Double duration;
-    private Double price;
-    private String departureCity;
-    private String arrivalCity;
-    private int numOfRoutes;
-    //Add parameter for Routes
+    LocalTime departureTime;
+    LocalTime arrivalTime;
+    Double duration;
+    Double price;
+    String departureCity;
+    String arrivalCity;
+    int numOfRoutes;
+    List<Route> routes;
 
     public Connection(){
 
     }
-    public Connection(List<Route> routes, LocalTime departureTime, LocalTime arrivalTime, Double duration, Double price, String departureCity, String arrivalCity, int numOdRoutes) {
-        this.routes = routes;
+    public Connection(LocalTime departureTime, LocalTime arrivalTime, Double duration, Double price, String departureCity, String arrivalCity, int numOdRoutes) {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.duration = duration;
@@ -26,10 +24,6 @@ public class Connection {
         this.arrivalCity = arrivalCity;
         this.numOfRoutes = numOdRoutes;
     }
-
-    public List<Route> getRoutes() {return routes;}
-
-    public List<Route> setRoutes(List<Route> routes) {return this.routes = routes;}
 
     public LocalTime getDepartureTime() {
         return departureTime;
@@ -86,16 +80,5 @@ public class Connection {
     public void setNumOdRoutes(int numOdRoutes) {
         this.numOfRoutes = numOdRoutes;
     }
-
-    public List<Route> searchConnections(String departureCity, String arrivalCity, RouteCatalogue catalogue) {
-        List<Route> connections = new ArrayList<>();
-        for (Route route : catalogue.getAllRoutes()) {
-            if (route.getDepartureCity().equalsIgnoreCase(departureCity) && route.getArrivalCity().equalsIgnoreCase(arrivalCity)) {
-                connections.add(route);
-            }
-        }
-        return connections;
-    }
-
 
 }
