@@ -1,50 +1,39 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         RouteCatalogue catalogue = new RouteCatalogue();
-        Connection connections = new Connection();
         CSVReader.loadRoutesFromCSV("data/eu_rail_network.csv", catalogue);
+        Scanner scanner = new Scanner(System.in);
 
-        List<List<Route>> thisIsAllTheRoutes = SearchConnections.searchByCity("Amsterdam", "Dresden", catalogue);
-        if (thisIsAllTheRoutes.isEmpty()){
-            System.out.println("No Connections Found");
+        System.out.println("Enter departure city: ");
+        String departureCity = scanner.nextLine();
+
+        System.out.println("Enter arrival city: ");
+        String arrivalCity = scanner.nextLine();
+
+        List<Connection> connections = SearchConnections.searchDirectConnections(departureCity, arrivalCity, catalogue);
+
+        if (connections.isEmpty()) {
+            System.out.println("No direct connections found.");
+            connections = SearchConnections.searchByCity(departureCity, arrivalCity, catalogue);
         }
-        else{
-        for (List<Route> routePath : thisIsAllTheRoutes) {
-            System.out.println("Route found:");
-            for (Route route : routePath) {
-                System.out.println(route);
+
+        if (connections.isEmpty()) {
+            System.out.println("No indirect connections found");
+        } else {
+            System.out.print("Found " + connections.size());
+            String connectionType = connections.get(0).getNumOfRoutes() == 1 ? " direct" : " indirect";
+            System.out.println(connectionType + " connection: \n");
+            for (Connection connection : connections) {
+                System.out.println("Duration: " + connection.getDuration() + " minutes");
+
+                for (Route route : connection.getRoutes()) {
+                    System.out.println("  - " + route);
+                }
+                System.out.println("-----");
             }
-            System.out.println("-----");
         }
-        }
-
-        // Get all the routes (TEST)
-//        Map<String, List<Route>> allRoutes = catalogue.getRoutesCatalogue();
-
-//        for (Route route : allRoutes) {
-//            System.out.println(route.toString());
-//        }
-
-//        int count = 0;
-//        for (List<Route> value : allRoutes.values()){
-//            for (Route route: value){
-//                count +=1;
-//            }
-//
-//        }
-//        System.out.println(count);
-
-//        List<Route> connection = connections.searchConnections("Amsterdam", "Bruges", catalogue);
-//
-//        for(Route route: connection){
-//            System.out.println(route);
-//        }
-
-
+        scanner.close();
     }
 }

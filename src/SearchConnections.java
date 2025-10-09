@@ -3,12 +3,14 @@ import java.util.List;
 
 public class SearchConnections {
 
-    public static List<List<Route>> searchByCity(String departureCity, String arrivalCity, RouteCatalogue allRoutes){
-        List<List<Route>>  foundRoutes= new ArrayList<>();
+    public static List<Connection> searchByCity(String departureCity, String arrivalCity, RouteCatalogue allRoutes){
+        List<Connection> foundConnections = new ArrayList<>();
 
         List<Route> routesFromDeparture = allRoutes.getRoutesCatalogue().get(departureCity);
 
-            for (Route firstLeg : routesFromDeparture) {
+        if (routesFromDeparture == null) return foundConnections;
+
+        for (Route firstLeg : routesFromDeparture) {
                 String firstStop = firstLeg.getArrivalCity();
 
                 List<Route> secondLegs = allRoutes.getRoutesCatalogue().get(firstStop);
@@ -19,7 +21,8 @@ public class SearchConnections {
 
                     // 1-stop route
                     if (secondStop.equalsIgnoreCase(arrivalCity)) {
-                        foundRoutes.add(List.of(firstLeg, secondLeg));
+                        Connection connection = new Connection(List.of(firstLeg, secondLeg));
+                        foundConnections.add(connection);
                     } else {
                         // Check for 2-stop route
                         List<Route> thirdLegs = allRoutes.getRoutesCatalogue().get(secondStop);
@@ -27,23 +30,28 @@ public class SearchConnections {
 
                         for (Route thirdLeg : thirdLegs) {
                             if (thirdLeg.getArrivalCity().equalsIgnoreCase(arrivalCity)) {
-                                foundRoutes.add(List.of(firstLeg, secondLeg, thirdLeg));
+                                Connection connection = new Connection(List.of(firstLeg, secondLeg, thirdLeg));
+                                foundConnections.add(connection);
                             }
                         }
                     }
                 }
             }
-        return foundRoutes;
+        return foundConnections;
 
     }
 
-    public static List<Route> searchDirectConnections(String departureCity, String arrivalCity, List<Route> routesDepartingFromCity) {
-        List<Route> connections = new ArrayList<>();
+    public static List<Connection> searchDirectConnections(String departureCity, String arrivalCity, RouteCatalogue allRoutes) {
+        List<Connection> connections = new ArrayList<>();
+        List<Route> routesDepartingFromCity = allRoutes.getRoutesCatalogue().get(departureCity);
 
-        // Get routes that depart from this city (directly from the map)
-        for (Route route: routesDepartingFromCity){
-            if(route.getDepartureCity().equalsIgnoreCase(departureCity) && route.getDepartureCity().equalsIgnoreCase(arrivalCity)){
-                connections.add(route);
+        if (routesDepartingFromCity != null) {
+            // Get routes that depart from this city (directly from the map)
+            for (Route route: routesDepartingFromCity){
+                if(route.getArrivalCity().equalsIgnoreCase(arrivalCity)){
+                    Connection connection = new Connection(List.of(route));
+                    connections.add(connection);
+                }
             }
         }
         return connections;
