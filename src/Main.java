@@ -12,11 +12,11 @@ public class Main {
         System.out.println("Enter arrival city: ");
         String arrivalCity = scanner.nextLine();
 
-        List<Connection> connections = SearchConnections.searchDirectConnections(departureCity, arrivalCity, catalogue);
+        List<Connection> connections = Connections.searchDirectConnections(departureCity, arrivalCity, catalogue);
 
         if (connections.isEmpty()) {
             System.out.println("No direct connections found.");
-            connections = SearchConnections.searchByCity(departureCity, arrivalCity, catalogue);
+            connections = Connections.searchByCity(departureCity, arrivalCity, catalogue);
         }
 
         if (connections.isEmpty()) {
@@ -25,14 +25,11 @@ public class Main {
             System.out.print("Found " + connections.size());
             String connectionType = connections.get(0).getNumOfRoutes() == 1 ? " direct" : " indirect";
             System.out.println(connectionType + " connection: \n");
-            for (Connection connection : connections) {
-                System.out.println("Duration: " + connection.getDuration() + " minutes");
-
-                for (Route route : connection.getRoutes()) {
-                    System.out.println("  - " + route);
-                }
+            for (Connection connection: connections){
+                System.out.println(connection);
                 System.out.println("-----");
             }
+
         }
         scanner.close();
     }

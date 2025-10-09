@@ -27,22 +27,11 @@ public class Connection {
             this.arrivalTime = routes.get(routes.size() - 1).getArrivalTime();
             this.departureCity = routes.get(0).getDepartureCity();
             this.arrivalCity = routes.get(routes.size()-1).getArrivalCity();
-            // to add similar logic but for first and second class ticket price
+            this.firstClassPrice = calculateFirstClassTicketPrice();
+            this.secondClassPrice = calculateSecondClassTicketPrice();
+            this.duration = calculateTripDuration();
         }
 
-        this.duration = calculateTripDuration();
-    }
-
-    public Connection(LocalTime departureTime, LocalTime arrivalTime, Double duration, Double firstClassPrice, Double secondClassPrice, String departureCity, String arrivalCity, int numOdRoutes, List<Route> routes) {
-        this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
-        this.duration = duration;
-        this.firstClassPrice = firstClassPrice;
-        this.secondClassPrice = secondClassPrice;
-        this.departureCity = departureCity;
-        this.arrivalCity = arrivalCity;
-        this.numOfRoutes = numOdRoutes;
-        this.routes = routes;
     }
 
     public LocalTime getDepartureTime() {
@@ -78,7 +67,7 @@ public class Connection {
     }
 
     public Double getSecondClassPrice() {
-        return firstClassPrice;
+        return secondClassPrice;
     }
 
     public void setSecondClassPrice(Double secondClassPrice) {
@@ -125,6 +114,14 @@ public class Connection {
         return totalDuration;
     }
 
+    public String convertIntoHour(double duration) {
+        String durationHour = "";
+        int hours = (int) (duration / 60);
+        int minutes = (int) (duration % 60);
+
+        return durationHour = hours + "h" + minutes + "m";
+    }
+
     // Method to calculate the duration of one route (in minutes)
     private Double calculateRouteDuration(Route route) {
         // Converting the departure time from hour to minute
@@ -138,5 +135,35 @@ public class Connection {
 
         return arrivalTime - departureTime;
     }
+    private double calculateFirstClassTicketPrice() {
+        double total = 0.0;
+        for(Route route: routes){
+            total += route.getFirstClassTicketRate();
+        }
+        return total;
+    }
 
+    private double calculateSecondClassTicketPrice() {
+        double total = 0.0;
+        for(Route route: routes){
+            total += route.getSecondClassTicketRate();
+        }
+        return total;
+    }
+
+    public String toString(){
+            String connections = "Duration: " + convertIntoHour(getDuration())+
+                    "\nFirst class price: €" + getFirstClassPrice() + " | Second class price: €" + getSecondClassPrice() ;
+
+
+            for (Route route : routes) {
+                connections+="\n- "+routes;
+
+            }
+          return connections;
+    }
 }
+
+
+
+

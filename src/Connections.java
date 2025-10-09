@@ -1,12 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchConnections {
+public class Connections {
+    private List<Connection> connections = new ArrayList<>();
 
+    public Connections(List<Connection> connections){
+        this.connections = connections;
+    }
     public static List<Connection> searchByCity(String departureCity, String arrivalCity, RouteCatalogue allRoutes){
         List<Connection> foundConnections = new ArrayList<>();
 
-        List<Route> routesFromDeparture = allRoutes.getRoutesCatalogue().get(departureCity);
+        List<Route> routesFromDeparture = allRoutes.getRoutesCatalogue().get(departureCity.toLowerCase());
 
         if (routesFromDeparture == null) return foundConnections;
 
@@ -56,5 +60,18 @@ public class SearchConnections {
         }
         return connections;
     }
+    public List<Connection> filterDuration(int givenDuration, List<Connection> connections){
+        double tripDuration = 0.0;
+        List<Connection> filteredConnection = new ArrayList<>();
+        for (Connection connection: connections){
+            tripDuration = connection.getDuration();
+            if (tripDuration<=givenDuration){
+                filteredConnection.add(connection);
+            }
+        }
+        return filteredConnection;
+    }
+
+
 
 }
