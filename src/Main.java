@@ -1,10 +1,15 @@
+import jdk.jfr.FlightRecorder;
+
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+
         RouteCatalogue catalogue = new RouteCatalogue();
-        CSVReader.loadRoutesFromCSV("data/eu_rail_network.csv", catalogue);
+        ConnectionFinder findConnections = new ConnectionFinder(catalogue);
         Scanner scanner = new Scanner(System.in);
+
+
 
         System.out.println("Enter departure city: ");
         String departureCity = scanner.nextLine();
@@ -12,11 +17,11 @@ public class Main {
         System.out.println("Enter arrival city: ");
         String arrivalCity = scanner.nextLine();
 
-        List<Connection> connections = Connections.searchDirectConnections(departureCity, arrivalCity, catalogue);
+        List<Connection> connections = findConnections.searchDirectConnections(departureCity, arrivalCity);
 
         if (connections.isEmpty()) {
             System.out.println("No direct connections found.");
-            connections = Connections.searchByCity(departureCity, arrivalCity, catalogue);
+            connections = findConnections.searchIndirectConnections(departureCity, arrivalCity);
         }
 
         if (connections.isEmpty()) {

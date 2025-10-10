@@ -152,18 +152,17 @@ public class Connection {
     }
 
     public String toString(){
-            String connections = "Duration: " + convertIntoHour(getDuration())+
-                    "\nFirst class price: €" + getFirstClassPrice() + " | Second class price: €" + getSecondClassPrice() ;
+        String connections = "Duration: " + convertIntoHour(getDuration())+
+                "\nFirst class price: €" + getFirstClassPrice() + " | Second class price: €" + getSecondClassPrice() ;
 
 
-            for (Route route : routes) {
-                connections+="\n- "+routes;
+        for (Route route : routes) {
+            connections+="\n- "+routes;
 
-            }
-          return connections;
+        }
+        return connections;
     }
 }
-
 
 
 
