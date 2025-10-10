@@ -1,8 +1,19 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class filterConnections {
-
+    //Sort connections from low to high duration
+    public List<Connection> AscenSortDuration(List<Connection> connections){
+        connections.sort(Comparator.comparingDouble(Connection::getDuration));
+        return connections;
+    }
+    //Sort connections from high to low duration
+    public List<Connection> DescenSortDuration(List<Connection> connections){
+        connections.sort(Comparator.comparingDouble(Connection::getDuration).reversed());
+        return connections;
+    }
+    //Filtering the connections based on a given max duration
     public List<Connection> filterDuration(int givenDuration, List<Connection> connections){
         double tripDuration = 0.0;
         List<Connection> filteredConnection = new ArrayList<>();
@@ -12,16 +23,31 @@ public class filterConnections {
                 filteredConnection.add(connection);
             }
         }
+
         return filteredConnection;
     }
-    public void filterByFirstClassTickets(){ // only show first class tickets and prices
-
+    //Filtering the connections based on a given max price for first class
+    public List<Connection> filterPriceFirstClass(int givenPrice,List<Connection> connections) {
+        double tripPrice = 0.0;
+        List<Connection> filteredConnection = new ArrayList<>();
+        for (Connection connection : connections) {
+            tripPrice = connection.getFirstClassPrice();
+            if (tripPrice <= givenPrice) {
+                filteredConnection.add(connection);
+            }
+        }
+        return filteredConnection;
     }
-
-    public void sortByPrice(){} //lowest price first
-
-    public void filterByDayOfDeparture(){}; //only show flights that leave on the day user specifies
-
-    public void filterBYDatOfArrival(){};  //only show flights that arrive on the day specified
-
+    //Filtering the connections based on a given max price for second class
+    public List<Connection> filterPriceSecondClass(int givenPrice,List<Connection> connections) {
+        double tripPrice = 0.0;
+        List<Connection> filteredConnection = new ArrayList<>();
+        for (Connection connection : connections) {
+            tripPrice = connection.getSecondClassPrice();
+            if (tripPrice <= givenPrice) {
+                filteredConnection.add(connection);
+            }
+        }
+        return filteredConnection;
+    }
 }
