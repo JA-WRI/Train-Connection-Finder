@@ -28,8 +28,8 @@ public class CSVReader {
 
                     Route route = new Route(
                             fields[0].trim(), // routeID
-                            fields[1].trim(), // departureCity
-                            fields[2].trim(), // arrivalCity
+                            fields[1].trim().toLowerCase(), // departureCity
+                            fields[2].trim().toLowerCase(), // arrivalCity
                             departureTime,    // departureTime
                             arrivalTime,      // arrivalTime
                             fields[5].trim(), // trainType

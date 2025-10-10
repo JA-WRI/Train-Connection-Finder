@@ -64,12 +64,12 @@ public class Route {
 //                trainType, daysOfOperation, firstClassTicketRate, secondClassTicketRate);
 //    }
     public String toString() {
-                String arrivalDisplay = arriveNextDay ?
+        String arrivalDisplay = arriveNextDay ?
                 arrivalTime + " (+1d)" :
                 arrivalTime.toString();
         return String.format("Route %s: %s to %s | %s - %s | Days: %s |",
                 routeID, departureCity, arrivalCity, departureTime, arrivalDisplay,
-                 daysOfOperation);
+                daysOfOperation);
     }
 
 
