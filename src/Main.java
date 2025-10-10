@@ -4,10 +4,12 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+
         RouteCatalogue catalogue = new RouteCatalogue();
-        CSVReader.loadRoutesFromCSV("data/eu_rail_network.csv", catalogue);
         ConnectionFinder findConnections = new ConnectionFinder(catalogue);
         Scanner scanner = new Scanner(System.in);
+
+
 
         System.out.println("Enter departure city: ");
         String departureCity = scanner.nextLine();

@@ -2,14 +2,14 @@ import java.util.*;
 
 public class RouteCatalogue {
 
-    //changed the dataStructure to a HashMap where the key is the departure city and the key is a list of all the
-    //routes from that departure city.
-    private final Map<String, List<Route>> routesCatalogue;
+    private final Map<String, List<Route>> routesCatalogue = new HashMap<>();
 
-    public RouteCatalogue() {
-        this.routesCatalogue = new HashMap<>();
+    public RouteCatalogue(String csvFilePath) {
+        CSVReader.loadRoutesFromCSV(csvFilePath, this);
     }
-
+    public RouteCatalogue(){
+        CSVReader.loadRoutesFromCSV("data/eu_rail_network.csv", this);
+    }
 
     public Map<String, List<Route>> getRoutesCatalogue() {
         return routesCatalogue;
