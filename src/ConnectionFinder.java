@@ -8,6 +8,25 @@ public class ConnectionFinder {
         this.routeCatalogue = routeCatalogue;
     }
 
+    public List<Connection> searchConnections(String departureCity, String arrivalCity){
+        List<Connection> connections = new ArrayList<>();
+        List<Route> routesDepartingFromCity = routeCatalogue.getRoutesCatalogue().get(departureCity);
+
+        if (routesDepartingFromCity != null) {
+            // Get routes that depart from this city (directly from the map)
+            for (Route route: routesDepartingFromCity){
+                if(route.getArrivalCity().equalsIgnoreCase(arrivalCity)){
+                    Connection connection = new Connection(List.of(route));
+                    connections.add(connection);
+                }
+            }
+        }
+        if(connections.isEmpty()){
+            connections = searchIndirectConnections(departureCity, arrivalCity);
+        }
+        return connections;
+    }
+
     public List<Connection> searchIndirectConnections(String departureCity, String arrivalCity){
         List<Connection> foundConnections = new ArrayList<>();
 
@@ -44,21 +63,6 @@ public class ConnectionFinder {
         }
         return foundConnections;
 
-    }
-    public List<Connection> searchDirectConnections(String departureCity, String arrivalCity){
-        List<Connection> connections = new ArrayList<>();
-        List<Route> routesDepartingFromCity = routeCatalogue.getRoutesCatalogue().get(departureCity);
-
-        if (routesDepartingFromCity != null) {
-            // Get routes that depart from this city (directly from the map)
-            for (Route route: routesDepartingFromCity){
-                if(route.getArrivalCity().equalsIgnoreCase(arrivalCity)){
-                    Connection connection = new Connection(List.of(route));
-                    connections.add(connection);
-                }
-            }
-        }
-        return connections;
     }
 
 }
