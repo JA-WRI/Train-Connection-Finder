@@ -1,17 +1,27 @@
-import jdk.jfr.FlightRecorder;
+import database.RouteCatalogue;
+import model.Connection;
+import services.ConnectionFinder;
+import utils.CSVReader;
+import utils.filterConnections;
 
 import java.time.LocalTime;
-import java.util.*;
 
 import java.util.List;
 import java.util.Scanner;
-import java.time.LocalTime;
 
 public class Main {
     public static void main(String[] args) {
 
-        RouteCatalogue catalogue = new RouteCatalogue();
-        ConnectionFinder findConnections = new ConnectionFinder(catalogue);
+        System.out.println("Starting Railway System Database Setup...");
+        System.out.println("Current working directory: " + System.getProperty("user.dir"));
+
+        // This will create the database and load all routes from CSV
+        CSVReader.loadRoutesFromCSVToDatabase("data/eu_rail_network.csv");
+        System.out.println("Database will be at: " + new java.io.File("../railway_system.db").getAbsolutePath());
+
+        System.out.println("Database setup complete YIPPEE YIPPEE");
+
+        ConnectionFinder findConnections = new ConnectionFinder();
         filterConnections filteredConnections = new filterConnections(); // Fixed class name casing
 
         Scanner scanner = new Scanner(System.in);
