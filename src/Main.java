@@ -1,3 +1,6 @@
+import model.Connection;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,7 +24,8 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    mainConsole.searchConnections();
+                    List<Connection> connections = mainConsole.searchConnections();
+                    mainConsole.displayConnections(connections);
                     break;
                 case 2:
                     System.out.println("Creating the trip");

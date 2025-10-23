@@ -27,15 +27,28 @@ public class console {
         List<Connection> foundConnections = findFromDepartureAndArrivalCity();
 
         System.out.println();
-        System.out.print("Do you want to filter your results? (y/n): ");
+        System.out.print("Found " + foundConnections.size());
+        String connectionType = foundConnections.getFirst().getNumOfRoutes() == 1 ? " direct" : " indirect";
+        System.out.println(connectionType + " connection(s): \n");
+        displayConnections(foundConnections);
+        System.out.println("Do you want to filter your results? (y/n): ");
         String isFilter = scanner.nextLine();
 
         if (isFilter.equalsIgnoreCase("y")) {
-            return filterAllFoundConnections(foundConnections);
+            foundConnections= filterAllFoundConnections(foundConnections);
+            displayConnections(foundConnections);
         }
+
         scanner.close();
         return foundConnections;
 
+    }
+
+    public void displayConnections(List<Connection> connections){
+        for (Connection connection : connections) {
+            System.out.println(connection);
+            System.out.println("-----");
+        }
     }
 
 
