@@ -1,11 +1,12 @@
 import model.Connection;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
+        List<Connection> foundConnections = new ArrayList<>();
         console mainConsole = new console();
         mainConsole.startProgram();
 
@@ -24,7 +25,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    List<Connection> connections = mainConsole.searchConnections();
+                    List<Connection> connections = mainConsole.searchConnections();;
                     mainConsole.displayConnections(connections);
                     break;
                 case 2:

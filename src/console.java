@@ -39,6 +39,7 @@ public class console {
             displayConnections(foundConnections);
         }
 
+
         scanner.close();
         return foundConnections;
 
@@ -120,8 +121,10 @@ public class console {
                     scanner.nextLine(); // Consume newline
                     if (ticketChoice == 1) {
                         connections = filteredConnections.sortByFirstClassPriceAscending(connections);
+                        displayConnections(connections);
                     } else if (ticketChoice == 2) {
                         connections = filteredConnections.sortBySecondClassPriceAscending(connections);
+                        displayConnections(connections);
                     }
                     break;
                 case "2":
@@ -134,8 +137,10 @@ public class console {
                     scanner.nextLine(); // Consume newline
                     if (ticketChoice == 1) {
                         connections = filteredConnections.sortByFirstClassPriceDescending(connections);
+                        displayConnections(connections);
                     } else if (ticketChoice == 2) {
                         connections = filteredConnections.sortBySecondClassPriceDescending(connections);
+                        displayConnections(connections);
                     }
                     break;
                 case "3":
@@ -150,21 +155,26 @@ public class console {
                     scanner.nextLine(); // Consume newline
                     if (ticketChoice == 1) {
                         connections = filteredConnections.filterPriceFirstClass(maxPrice, connections);
+                        displayConnections(connections);
                     } else if (ticketChoice == 2) {
                         connections = filteredConnections.filterPriceSecondClass(maxPrice, connections);
+                        displayConnections(connections);
                     }
                     break;
                 case "4":
                     connections = filteredConnections.AscenSortDuration(connections);
+                    displayConnections(connections);
                     break;
                 case "5":
                     connections = filteredConnections.DescenSortDuration(connections);
+                    displayConnections(connections);
                     break;
                 case "6":
                     System.out.print("Enter the maximum duration (round hours ex: 2): ");
                     int maxHours = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
                     connections = filteredConnections.filterDuration(maxHours, connections);
+                    displayConnections(connections);
                     break;
                 case "7":
                     System.out.print("Enter departure time (HH:MM format, ex: 14:30): ");
@@ -173,6 +183,7 @@ public class console {
                         LocalTime departureTime = LocalTime.parse(departureTimeStr);
                         connections = filteredConnections.filterByDepartureTime(connections, departureTime);
                         System.out.println("Filtered by departure time: " + departureTime);
+                        displayConnections(connections);
                     } catch (Exception e) {
                         System.out.println("Invalid time format! Please use HH:MM format (ex: 14:30)");
                     }
@@ -184,7 +195,9 @@ public class console {
                     try {
                         LocalTime arrivalTime = LocalTime.parse(arrivalTimeStr);
                         connections = filteredConnections.filterByArrivalTime(connections, arrivalTime);
+                        displayConnections(connections);
                         System.out.println("Filtered by arrival time: " + arrivalTime);
+                        displayConnections(connections);
                     } catch (Exception e) {
                         System.out.println("Invalid time format! Please use HH:MM format (ex: 16:45)");
                     }
@@ -197,6 +210,7 @@ public class console {
                     if (isValidDay(departureDay)) {
                         connections = filteredConnections.filterByDayOfDeparture(connections, departureDay);
                         System.out.println("Filtered by departure day: " + departureDay);
+                        displayConnections(connections);
                     } else {
                         System.out.println("Invalid day! Please use: Mon, Tue, Wed, Thu, Fri, Sat, Sun");
                     }
@@ -209,6 +223,7 @@ public class console {
                     if (isValidDay(arrivalDay)) {
                         connections = filteredConnections.filterByDayOfArrival(connections, arrivalDay);
                         System.out.println("Filtered by arrival day: " + arrivalDay);
+                        displayConnections(connections);
                     } else {
                         System.out.println("Invalid day! Please use: Mon, Tue, Wed, Thu, Fri, Sat, Sun");
                     }
