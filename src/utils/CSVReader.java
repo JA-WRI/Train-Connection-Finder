@@ -2,7 +2,6 @@ package utils;
 
 import database.DatabaseConnection;
 import database.DatabaseInitializer;
-import database.RouteCatalogue;
 import model.Route;
 
 import java.io.BufferedReader;
@@ -77,51 +76,6 @@ public class CSVReader {
             preparedStatement.executeUpdate();
         }
 
-    }
-
-
-    // Method to load the model.Route from the CSV into model.Route list
-    public static void loadRoutesFromCSV(String filename, RouteCatalogue catalogue) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            boolean firstLine = true;
-
-            while ((line = br.readLine()) != null) {
-                if (firstLine) {
-                    firstLine = false;
-                    continue; // Skip row with column names
-                }
-
-                String[] fields = parseCSVLine(line);
-
-                if (fields.length == 9) {
-                    LocalTime departureTime = parseTime(fields[3].trim());
-                    LocalTime arrivalTime = parseTime(fields[4].trim());
-                    List<String> daysOfOperation = parseDays(fields[6].trim());
-                    boolean nextDayArrival = hasNextDayArrival(fields[4].trim());
-
-                    Route route = new Route(
-                            fields[0].trim(), // routeID
-                            fields[1].trim().toLowerCase(), // departureCity
-                            fields[2].trim().toLowerCase(), // arrivalCity
-                            departureTime,    // departureTime
-                            arrivalTime,      // arrivalTime
-                            fields[5].trim(), // trainType
-                            daysOfOperation,  // daysOfOperation
-                            Double.parseDouble(fields[7].trim()), // firstClass
-                            Double.parseDouble(fields[8].trim()), // secondClass
-                            nextDayArrival
-                    );
-                    //If this departure city (k) is not already in the map, create a new empty ArrayList<model.Route> and associate it with that key
-                    catalogue.getRoutesCatalogue().computeIfAbsent(route.getDepartureCity(), k -> new ArrayList<>()).add(route);
-                }
-            }
-            //different way of getting total routes for the hashmap
-            System.out.println("Loaded " + catalogue.getTotalRoutes() + " routes from CSV");
-
-        } catch (Exception e) {
-            System.out.println("Error loading CSV: " + e.getMessage());
-        }
     }
 
     // Method to parse String into LocalTime
