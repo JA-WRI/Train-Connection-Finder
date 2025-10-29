@@ -39,7 +39,6 @@ public class console {
             displayConnections(foundConnections);
         }
 
-
         scanner.close();
         return foundConnections;
 
@@ -238,6 +237,11 @@ public class console {
             }
         }
         return connections;
+    }
+
+    public void createTrip(List<Connection> finalListOfConnections){
+        //ask user to pick one of the connections....ect.....
+        System.out.println("Creating trip");
     }
 
 
