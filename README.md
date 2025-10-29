@@ -10,10 +10,10 @@ Emy Om Sobodker | 40300379 <br>
 
 Option 1:
 1. Open the terminal in Soen-342/src.
-2. Run `javac Main.java`.
-3. Run `java Main`.
+2. Run `javac com.trainapp.Main.java`.
+3. Run `java com.trainapp.Main`.
 
 Option 2:
 1. Open Soen-342 on the IDE of your choice.
-2. Navigate to src/Main.java.
+2. Navigate to src/com.trainapp.Main.java.
 3. Click Run.
