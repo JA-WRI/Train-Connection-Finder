@@ -24,12 +24,9 @@ public class ConnectionDTO {
         this.arrivalTime = c.getArrivalTime().format(fmt);
         this.departureCity = c.getDepartureCity();
         this.arrivalCity = c.getArrivalCity();
-        this.stops = c.getNumOfRoutes() - 1; // 0 = direct
+        this.stops = c.getNumOfRoutes() ; // 0 = direct
         this.detailsAvailable = c.getRoutes() != null && !c.getRoutes().isEmpty();
-
-        int hours = c.getDuration().intValue();
-        int minutes = (int) ((c.getDuration() - hours) * 60);
-        this.duration = String.format("%dh %02dm", hours, minutes);
+        this.duration = c.convertIntoHour(c.getDuration());
 
         if (firstClass) {
             this.price = c.getFirstClassPrice();

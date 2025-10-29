@@ -23,28 +23,36 @@ public class console {
         System.out.println("Database setup complete YIPPEE YIPPEE");
     }
 
-    public List<Connection> searchConnections() {
-        Scanner scanner = new Scanner(System.in);
-        List<Connection> foundConnections = findFromDepartureAndArrivalCity();
+    public List<Connection> getConnection(String departureCity, String arrivalCity){
+        ConnectionFinder findConnections = new ConnectionFinder();
+        List<Connection> connections = findConnections.searchDirectConnections(departureCity, arrivalCity);
 
-        System.out.println();
-        System.out.print("Found " + foundConnections.size());
-        String connectionType = foundConnections.get(0).getNumOfRoutes() == 1 ? " direct" : " indirect";
-        System.out.println(connectionType + " connection(s): \n");
-        displayConnections(foundConnections);
-        System.out.println("Do you want to filter your results? (y/n): ");
-        String isFilter = scanner.nextLine();
-
-        if (isFilter.equalsIgnoreCase("y")) {
-            foundConnections= filterAllFoundConnections(foundConnections);
-            displayConnections(foundConnections);
+        if (connections.isEmpty()) {
+            System.out.println("No direct connections found. Searching for indirect connections");
+            connections = findConnections.searchIndirectConnections(departureCity, arrivalCity);
         }
-
-        scanner.close();
-        return foundConnections;
-
+        if (connections.isEmpty()) {
+            System.out.println("No connections found.");
+        }
+        displayConnections(connections);
+        return connections;
     }
+//
+//    public void createTrip(List<Connection> finalListOfConnections){
+//        //ask user to pick one of the connections....ect.....
+//        System.out.println("Creating trip");
+//    }
 
+//    private static boolean isValidDay(String day) {
+//        String[] validDays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+//        for (String validDay : validDays) {
+//            if (validDay.equalsIgnoreCase(day)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
     public void displayConnections(List<Connection> connections){
         for (Connection connection : connections) {
             System.out.println(connection);
@@ -52,208 +60,5 @@ public class console {
         }
     }
 
-
-    public List<Connection> findFromDepartureAndArrivalCity(){
-        ConnectionFinder findConnections = new ConnectionFinder();
-
-        Scanner scanner = new Scanner(System.in);
-
-
-        System.out.print("Enter departure city: ");
-        String departureCity = scanner.nextLine();
-
-        System.out.print("Enter arrival city: ");
-        String arrivalCity = scanner.nextLine();
-
-        List<Connection> connections = findConnections.searchDirectConnections(departureCity, arrivalCity);
-
-        if (connections.isEmpty()) {
-            System.out.println("No direct connections found. Searching for indirect connections");
-            connections = findConnections.searchIndirectConnections(departureCity, arrivalCity);
-        }
-
-        if (connections.isEmpty()) {
-            System.out.println("No connections found.");
-            scanner.close();
-        }
-        return connections;
-
-    }
-
-    public List<Connection> filterAllFoundConnections(List<Connection> connections) {
-        Scanner scanner = new Scanner(System.in);
-        filterConnections filteredConnections = new filterConnections(); // Fixed class name casing
-
-        String filterChoice = "";
-        while (!filterChoice.equals("11")) {
-            System.out.println("Filter menu:");
-            System.out.println("--------------------------------------------------");
-            System.out.println("1. Sort tickets from low to high based on price.");
-            System.out.println("2. Sort tickets from high to low based on price.");
-            System.out.println("3. Display tickets under a certain price.");
-            System.out.println("4. Sort tickets from shortest to longest duration.");
-            System.out.println("5. Sort tickets from longest to shortest duration.");
-            System.out.println("6. Display tickets under a certain duration.");
-            System.out.println("7. Select departure time.");
-            System.out.println("8. Select arrival time.");
-            System.out.println("9. Select day of departure.");
-            System.out.println("10. Select day of arrival.");
-            System.out.println("11. Exit.");
-            System.out.println("--------------------------------------------------");
-
-            System.out.print("Select a filter from the menu (enter the number ex: 1): ");
-            filterChoice = scanner.nextLine();
-
-            // Consume leftover newline characters for numeric inputs
-            if (filterChoice.matches("\\d+") && Integer.parseInt(filterChoice) >= 1 && Integer.parseInt(filterChoice) <= 3) {
-                scanner.nextLine(); // Consume leftover newline
-            }
-
-            int ticketChoice = 0;
-            switch (filterChoice) {
-                case "1":
-                    System.out.println("1. First Class ticket.");
-                    System.out.println("2. Second Class ticket.");
-                    System.out.println("--------------------------------------------------");
-                    System.out.println();
-                    System.out.print("Which class of ticket do you want (enter the number ex: 1)? ");
-                    ticketChoice = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    if (ticketChoice == 1) {
-                        connections = filteredConnections.sortByFirstClassPriceAscending(connections);
-                        displayConnections(connections);
-                    } else if (ticketChoice == 2) {
-                        connections = filteredConnections.sortBySecondClassPriceAscending(connections);
-                        displayConnections(connections);
-                    }
-                    break;
-                case "2":
-                    System.out.println("1. First Class ticket.");
-                    System.out.println("2. Second Class ticket.");
-                    System.out.println("--------------------------------------------------");
-                    System.out.println();
-                    System.out.print("Which class of ticket do you want (enter the number ex: 1)? ");
-                    ticketChoice = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    if (ticketChoice == 1) {
-                        connections = filteredConnections.sortByFirstClassPriceDescending(connections);
-                        displayConnections(connections);
-                    } else if (ticketChoice == 2) {
-                        connections = filteredConnections.sortBySecondClassPriceDescending(connections);
-                        displayConnections(connections);
-                    }
-                    break;
-                case "3":
-                    System.out.println("1. First Class ticket.");
-                    System.out.println("2. Second Class ticket.");
-                    System.out.println("--------------------------------------------------");
-                    System.out.println();
-                    System.out.print("Which class of ticket do you want? (enter the number ex: 1): ");
-                    ticketChoice = scanner.nextInt();
-                    System.out.print("Enter the maximum price (round number ex: 2000): ");
-                    int maxPrice = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    if (ticketChoice == 1) {
-                        connections = filteredConnections.filterPriceFirstClass(maxPrice, connections);
-                        displayConnections(connections);
-                    } else if (ticketChoice == 2) {
-                        connections = filteredConnections.filterPriceSecondClass(maxPrice, connections);
-                        displayConnections(connections);
-                    }
-                    break;
-                case "4":
-                    connections = filteredConnections.AscenSortDuration(connections);
-                    displayConnections(connections);
-                    break;
-                case "5":
-                    connections = filteredConnections.DescenSortDuration(connections);
-                    displayConnections(connections);
-                    break;
-                case "6":
-                    System.out.print("Enter the maximum duration (round hours ex: 2): ");
-                    int maxHours = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    connections = filteredConnections.filterDuration(maxHours, connections);
-                    displayConnections(connections);
-                    break;
-                case "7":
-                    System.out.print("Enter departure time (HH:MM format, ex: 14:30): ");
-                    String departureTimeStr = scanner.nextLine();
-                    try {
-                        LocalTime departureTime = LocalTime.parse(departureTimeStr);
-                        connections = filteredConnections.filterByDepartureTime(connections, departureTime);
-                        System.out.println("Filtered by departure time: " + departureTime);
-                        displayConnections(connections);
-                    } catch (Exception e) {
-                        System.out.println("Invalid time format! Please use HH:MM format (ex: 14:30)");
-                    }
-                    break;
-
-                case "8":
-                    System.out.print("Enter arrival time (HH:MM format, ex: 16:45): ");
-                    String arrivalTimeStr = scanner.nextLine();
-                    try {
-                        LocalTime arrivalTime = LocalTime.parse(arrivalTimeStr);
-                        connections = filteredConnections.filterByArrivalTime(connections, arrivalTime);
-                        displayConnections(connections);
-                        System.out.println("Filtered by arrival time: " + arrivalTime);
-                        displayConnections(connections);
-                    } catch (Exception e) {
-                        System.out.println("Invalid time format! Please use HH:MM format (ex: 16:45)");
-                    }
-                    break;
-
-                case "9":
-                    System.out.println("Available days: Mon, Tue, Wed, Thu, Fri, Sat, Sun");
-                    System.out.print("Enter day of departure (ex: Mon): ");
-                    String departureDay = scanner.nextLine().trim();
-                    if (isValidDay(departureDay)) {
-                        connections = filteredConnections.filterByDayOfDeparture(connections, departureDay);
-                        System.out.println("Filtered by departure day: " + departureDay);
-                        displayConnections(connections);
-                    } else {
-                        System.out.println("Invalid day! Please use: Mon, Tue, Wed, Thu, Fri, Sat, Sun");
-                    }
-                    break;
-
-                case "10":
-                    System.out.println("Available days: Mon, Tue, Wed, Thu, Fri, Sat, Sun");
-                    System.out.print("Enter day of arrival (ex: Fri): ");
-                    String arrivalDay = scanner.nextLine().trim();
-                    if (isValidDay(arrivalDay)) {
-                        connections = filteredConnections.filterByDayOfArrival(connections, arrivalDay);
-                        System.out.println("Filtered by arrival day: " + arrivalDay);
-                        displayConnections(connections);
-                    } else {
-                        System.out.println("Invalid day! Please use: Mon, Tue, Wed, Thu, Fri, Sat, Sun");
-                    }
-                    break;
-
-                case "11":
-                    System.out.println("Exit filters");
-                    break;
-                default:
-                    System.out.println("Please enter a valid input (1-11).");
-                    break;
-            }
-        }
-        return connections;
-    }
-
-    public void createTrip(List<Connection> finalListOfConnections){
-        //ask user to pick one of the connections....ect.....
-        System.out.println("Creating trip");
-    }
-
-
-    private static boolean isValidDay(String day) {
-        String[] validDays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-        for (String validDay : validDays) {
-            if (validDay.equalsIgnoreCase(day)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }
