@@ -17,7 +17,7 @@ public class console {
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
         // This will create the database and load all routes from CSV
-        CSVReader.loadRoutesFromCSVToDatabase("Backend/data/eu_rail_network.csv");
+        CSVReader.loadRoutesFromCSVToDatabase("data/eu_rail_network.csv");
         System.out.println("Database will be at: " + new java.io.File("../railway_system.db").getAbsolutePath());
 
         System.out.println("Database setup complete YIPPEE YIPPEE");
