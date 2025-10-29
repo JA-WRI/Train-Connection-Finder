@@ -1,5 +1,6 @@
-import model.Connection;
+package com.trainapp;
 
+import com.trainapp.model.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

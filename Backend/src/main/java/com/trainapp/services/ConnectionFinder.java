@@ -1,8 +1,8 @@
-package services;
+package com.trainapp.services;
 
-import database.DatabaseConnection;
-import model.Connection;
-import model.Route;
+import com.trainapp.database.DatabaseConnection;
+import com.trainapp.model.Connection;
+import com.trainapp.model.Route;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

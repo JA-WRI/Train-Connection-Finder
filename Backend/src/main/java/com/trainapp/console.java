@@ -1,8 +1,9 @@
-import model.Connection;
-import services.ConnectionFinder;
-import utils.CSVReader;
-import utils.filterConnections;
+package com.trainapp;
 
+import com.trainapp.model.Connection;
+import com.trainapp.services.ConnectionFinder;
+import com.trainapp.utils.CSVReader;
+import com.trainapp.utils.filterConnections;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +17,7 @@ public class console {
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
         // This will create the database and load all routes from CSV
-        CSVReader.loadRoutesFromCSVToDatabase("data/eu_rail_network.csv");
+        CSVReader.loadRoutesFromCSVToDatabase("Backend/data/eu_rail_network.csv");
         System.out.println("Database will be at: " + new java.io.File("../railway_system.db").getAbsolutePath());
 
         System.out.println("Database setup complete YIPPEE YIPPEE");
@@ -28,7 +29,7 @@ public class console {
 
         System.out.println();
         System.out.print("Found " + foundConnections.size());
-        String connectionType = foundConnections.getFirst().getNumOfRoutes() == 1 ? " direct" : " indirect";
+        String connectionType = foundConnections.get(0).getNumOfRoutes() == 1 ? " direct" : " indirect";
         System.out.println(connectionType + " connection(s): \n");
         displayConnections(foundConnections);
         System.out.println("Do you want to filter your results? (y/n): ");

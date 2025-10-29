@@ -1,4 +1,4 @@
-package model;
+package com.trainapp.model;
 
 public class Ticket {
     private String ticketId;

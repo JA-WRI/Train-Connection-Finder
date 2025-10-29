@@ -1,7 +1,7 @@
-package utils;
+package com.trainapp.utils;
 
-import model.Connection;
-import model.Route;
+import com.trainapp.model.Connection;
+import com.trainapp.model.Route;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class filterConnections {
     public List<Connection> filterByDayOfDeparture(List<Connection> connections, String day){
         List<Connection> filteredConnections = new ArrayList<>();
         for (Connection connection : connections){
-            Route firstRoute = connection.getRoutes().getFirst();
+            Route firstRoute = connection.getRoutes().get(0);
 
             if (firstRoute.getDaysOfOperation().contains(day)) {
                 filteredConnections.add(connection);
@@ -103,7 +103,8 @@ public class filterConnections {
     public List<Connection> filterByDayOfArrival(List<Connection> connections, String day){
         List<Connection> filteredConnections = new ArrayList<>();
         for (Connection connection : connections){
-            Route firstRoute = connection.getRoutes().getLast();
+            List<Route> routes = connection.getRoutes();
+            Route firstRoute = routes.get(routes.size() - 1);
 
             if (firstRoute.getDaysOfOperation().contains(day)) {
                 filteredConnections.add(connection);

@@ -1,4 +1,4 @@
-package model;
+package com.trainapp.model;
 
 import java.time.LocalTime;
 import java.util.List;

@@ -1,4 +1,4 @@
-package database;
+package com.trainapp.database;
 
 import java.sql.Statement;
 

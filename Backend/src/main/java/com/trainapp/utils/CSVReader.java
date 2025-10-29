@@ -1,8 +1,8 @@
-package utils;
+package com.trainapp.utils;
 
-import database.DatabaseConnection;
-import database.DatabaseInitializer;
-import model.Route;
+import com.trainapp.database.DatabaseConnection;
+import com.trainapp.database.DatabaseInitializer;
+import com.trainapp.model.Route;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
