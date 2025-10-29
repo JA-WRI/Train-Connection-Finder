@@ -1,0 +1,135 @@
+.connections-page {
+  background-color: #fff;
+  min-height: 100vh;
+  padding: 2rem 4rem;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.connections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.connection-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s;
+}
+
+.connection-card:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Main row (departure → arrival) */
+.connection-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.connection-left,
+.connection-right {
+  text-align: center;
+  width: 80px;
+}
+
+.time {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.city {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* The route line */
+.connection-middle {
+  flex: 1;
+  text-align: center;
+}
+
+.route-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.3rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #d32f2f;
+  border-radius: 50%;
+}
+
+.line {
+  height: 2px;
+  width: 100px;
+  background-color: #ccc;
+  margin: 0 6px;
+}
+
+.stops {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Footer row */
+.connection-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 1rem;
+}
+
+.details {
+  font-size: 0.9rem;
+}
+
+.link {
+  color: #0056b3;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.unavailable {
+  color: #888;
+}
+
+.price {
+  text-align: right;
+}
+
+.price-value {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.cabin {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.3rem;
+}
