@@ -12,12 +12,6 @@ const ConnectionDetailsModal = ({ connection, onClose }) => {
           <button onClick={onClose} className="close-button">×</button>
         </div>
 
-        <p className="route-summary">
-          {connection.departureCity} → {connection.arrivalCity}
-        </p>
-        <p className="total-duration">Total duration: {connection.duration}</p>
-        <hr />
-
         {connection.routes && connection.routes.length > 0 ? (
           connection.routes.map((route, idx) => (
             <div key={idx} className="route-section">
