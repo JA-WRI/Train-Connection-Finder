@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/connectionsCard.css";
+import ConnectionDetails from "./connectionDetails"
 
 const ConnectionCard = ({ connection }) => {
   const {
@@ -14,7 +15,10 @@ const ConnectionCard = ({ connection }) => {
     detailsAvailable,
   } = connection;
 
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
+    <>
     <div className="connection-card">
       <div className="connection-main">
         <div className="connection-left">
@@ -42,9 +46,12 @@ const ConnectionCard = ({ connection }) => {
       <div className="connection-footer">
         <div className="details">
           {detailsAvailable ? (
-            <a href="#" className="link">
-              Details
-            </a>
+            <button
+  className="link-button"
+  onClick={() => setShowDetails(true)}
+>
+  Details
+</button>
           ) : (
             <span className="unavailable">Not available</span>
           )}
@@ -56,6 +63,14 @@ const ConnectionCard = ({ connection }) => {
         </div>
       </div>
     </div>
+    {/* Modal */}
+      {showDetails && (
+        <ConnectionDetails
+          connection={connection}
+          onClose={() => setShowDetails(false)}
+        />
+      )}
+    </>
   );
 };
 

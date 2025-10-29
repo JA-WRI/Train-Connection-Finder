@@ -1,0 +1,79 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  width: 430px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.route-summary {
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.total-duration {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.route-section {
+  margin-bottom: 12px;
+}
+
+.route-header h4 {
+  margin: 0;
+}
+
+.route-time, .route-duration, .operator {
+  color: #666;
+  font-size: 14px;
+  margin: 2px 0;
+}
+
+.direct {
+  text-align: center;
+  color: #777;
+}
+.link-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+
+.link-button:hover {
+  text-decoration: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
