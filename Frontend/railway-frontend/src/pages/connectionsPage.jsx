@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ConnectionCard from "../components/connectionCard";
+import FlightSearchForm from "../components/FlightSearchForm";
 import "../styles/connectionsCard.css";
 
 const ConnectionsPage = () => {
@@ -8,6 +9,7 @@ const ConnectionsPage = () => {
   const { departure, arrival } = location.state || {};
 
   const [connections, setConnections] = useState([]);
+  const [filteredConnections, setFilteredConnections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,7 +18,6 @@ const ConnectionsPage = () => {
       const fetchConnections = async () => {
         setLoading(true);
         setError(null);
-
         try {
           const response = await fetch(
             `http://localhost:4567/searchConnections?departureCity=${encodeURIComponent(
@@ -30,6 +31,7 @@ const ConnectionsPage = () => {
 
           const data = await response.json();
           setConnections(data);
+          setFilteredConnections(data);
         } catch (err) {
           setError(err.message);
         } finally {
@@ -41,6 +43,19 @@ const ConnectionsPage = () => {
     }
   }, [departure, arrival]);
 
+  
+  const handleFilterChange = (filters) => {
+    const filtered = connections.filter((conn) => {
+      const priceOK =
+        !filters.maxPrice || conn.price <= Number(filters.maxPrice);
+      const durationOK =
+        !filters.maxDuration || conn.duration <= Number(filters.maxDuration);
+      const classOK =
+        !filters.ticketClass || conn.class === filters.ticketClass;
+      return priceOK && durationOK && classOK;
+    });
+    setFilteredConnections(filtered);
+  };
 
   return (
     <div className="connections-page">
@@ -50,12 +65,17 @@ const ConnectionsPage = () => {
           : "Available Train Connections"}
       </h2>
 
+      
+      <FlightSearchForm onFilterChange={handleFilterChange} />
+
       {loading && <p>Loading connections...</p>}
       {error && <p className="error">{error}</p>}
 
       <div className="connections-list">
-        {connections.length > 0 ? (
-          connections.map((c, i) => <ConnectionCard key={i} connection={c} />)
+        {filteredConnections.length > 0 ? (
+          filteredConnections.map((c, i) => (
+            <ConnectionCard key={i} connection={c} />
+          ))
         ) : (
           !loading && <p>No connections found.</p>
         )}
