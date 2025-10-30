@@ -14,6 +14,8 @@ public class ConnectionDTO {
     public String duration;
     public int stops;
     public double price;
+    public double firstClassPrice;  // Add this
+    public double secondClassPrice;
     public String cabinType;
     public boolean detailsAvailable;
     public List<RouteDTO> routes;
@@ -27,13 +29,15 @@ public class ConnectionDTO {
         this.stops = c.getNumOfRoutes()-1 ; // 0 = direct
         this.detailsAvailable = c.getRoutes() != null && !c.getRoutes().isEmpty();
         this.duration = c.convertIntoHour(c.getDuration());
+        this.firstClassPrice = c.getFirstClassPrice();   // Add this
+        this.secondClassPrice = c.getSecondClassPrice();
 
         if (firstClass) {
             this.price = c.getFirstClassPrice();
             this.cabinType = "First Class";
         } else {
             this.price = c.getSecondClassPrice();
-            this.cabinType = "Standard";
+            this.cabinType = "Second Class";
         }
         if (c.getRoutes() != null) {
             this.routes = c.getRoutes().stream()
@@ -41,6 +45,18 @@ public class ConnectionDTO {
                     .collect(Collectors.toList());
         }
     }
+
+    public void setSecondClassPrice(double secondClassPrice) { this.secondClassPrice = secondClassPrice; }
+
+    public void setFirstClassPrice(double firstClassPrice) { this.firstClassPrice = firstClassPrice; }
+
+    public List<RouteDTO> getRoutes() { return routes; }
+
+    public void setRoutes(List<RouteDTO> routes) { this.routes = routes; }
+
+    public double getFirstClassPrice(){ return firstClassPrice; };
+
+    public double getSecondClassPrice(){ return secondClassPrice; }
 
     public String getDepartureTime() {
         return departureTime;
