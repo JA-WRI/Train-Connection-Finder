@@ -13,6 +13,11 @@ const ConnectionsPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const capitalizeFirstLetter = (str) => {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
   useEffect(() => {
     if (departure && arrival) {
       const fetchConnections = async () => {
@@ -76,7 +81,7 @@ console.log("Connections to send:\n\n\n\n\n\n\n", connections);
     <div className="connections-page">
       <h2 className="page-title">
         {departure && arrival
-          ? `Connections from ${departure} to ${arrival}`
+          ? `Connections from ${capitalizeFirstLetter(departure)} to ${capitalizeFirstLetter(arrival)}`
           : "Available Train Connections"}
       </h2>
 
@@ -98,5 +103,6 @@ console.log("Connections to send:\n\n\n\n\n\n\n", connections);
     </div>
   );
 };
+
 
 export default ConnectionsPage;
