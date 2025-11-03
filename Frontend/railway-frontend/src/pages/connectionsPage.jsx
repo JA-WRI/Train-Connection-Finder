@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ConnectionCard from "../components/connectionCard";
-import FlightSearchForm from "../components/FlightSearchForm";
+import ConnectionSearchForm from "../components/ConnectionSearchForm";
 import "../styles/connectionsCard.css";
 
 const ConnectionsPage = () => {
@@ -20,9 +20,7 @@ const ConnectionsPage = () => {
         setError(null);
         try {
           const response = await fetch(
-            `http://localhost:4567/searchConnections?departureCity=${encodeURIComponent(
-              departure
-            )}&arrivalCity=${encodeURIComponent(arrival)}`
+            `http://localhost:4567/searchConnections?departureCity=${encodeURIComponent(departure)}&arrivalCity=${encodeURIComponent(arrival)}`
           );
 
           if (!response.ok) {
@@ -30,8 +28,8 @@ const ConnectionsPage = () => {
           }
 
           const data = await response.json();
-          setConnections(data);
-          setFilteredConnections(data);
+          setConnections(data); // Store the full list of connections
+          setFilteredConnections(data); // Initially set filtered connections to all connections
         } catch (err) {
           setError(err.message);
         } finally {
@@ -43,19 +41,36 @@ const ConnectionsPage = () => {
     }
   }, [departure, arrival]);
 
-  
-  const handleFilterChange = (filters) => {
-    const filtered = connections.filter((conn) => {
-      const priceOK =
-        !filters.maxPrice || conn.price <= Number(filters.maxPrice);
-      const durationOK =
-        !filters.maxDuration || conn.duration <= Number(filters.maxDuration);
-      const classOK =
-        !filters.ticketClass || conn.class === filters.ticketClass;
-      return priceOK && durationOK && classOK;
+ const handleFilterChange = async (filters) => {
+  setLoading(true);
+  setError(null);
+console.log("Connections to send:\n\n\n\n\n\n\n", connections);
+  try {
+    // Send both the connections and filters in the request body (as JSON)
+    const response = await fetch(`http://localhost:4567/filterConnections`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        connections: connections, // Send the full list of connections
+        filters: filters,         // Send the filter parameters
+      }),
     });
-    setFilteredConnections(filtered);
-  };
+
+    if (!response.ok) {
+      throw new Error("Failed to apply filters");
+    }
+
+    const filteredData = await response.json();
+    setFilteredConnections(filteredData); // Update filtered connections with the response from the backend
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="connections-page">
@@ -65,8 +80,8 @@ const ConnectionsPage = () => {
           : "Available Train Connections"}
       </h2>
 
-      
-      <FlightSearchForm onFilterChange={handleFilterChange} />
+      {/* Filter form */}
+      <ConnectionSearchForm onFilterChange={handleFilterChange} />
 
       {loading && <p>Loading connections...</p>}
       {error && <p className="error">{error}</p>}

@@ -1,4 +1,4 @@
-.flight-search-form {
+.connection-search-form {
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -11,7 +11,7 @@
   transition: box-shadow 0.3s ease;
 }
 
-.flight-search-form:hover {
+.connection-search-form:hover {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
@@ -22,15 +22,15 @@
   align-items: center;
 }
 
-.flight-search-form label {
+.connection-search-form label {
   font-size: 0.95rem;
   font-weight: 600;
   color: #333;
   min-width: 120px;
 }
 
-.flight-search-form input,
-.flight-search-form select {
+.connection-search-form input,
+.connection-search-form select {
   flex: 1;
   min-width: 180px;
   padding: 0.6rem 0.75rem;
@@ -41,18 +41,18 @@
   transition: border 0.2s ease, background-color 0.2s ease;
 }
 
-.flight-search-form input:focus,
-.flight-search-form select:focus {
-  border-color: #d40000; /* Air Canada red */
+.connection-search-form input:focus,
+.connection-search-form select:focus {
+  border-color: #d40000; /* red accent */
   background-color: #fff;
   outline: none;
   box-shadow: 0 0 0 2px rgba(212, 0, 0, 0.15);
 }
 
-
-.flight-search-form button {
+/* 🔴 Solid red button */
+.connection-search-form button {
   align-self: flex-start;
-  background-color: #d40000; /* solid red */
+  background-color: #d40000;
   color: white;
   font-weight: 600;
   border: none;
@@ -60,17 +60,20 @@
   padding: 0.7rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.25s ease, transform 0.15s ease;
+  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 3px 6px rgba(212, 0, 0, 0.15);
 }
 
-.flight-search-form button:hover {
-  background-color: #b80000; /* darker red on hover */
+.connection-search-form button:hover {
+  background-color: #b80000;
   transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(212, 0, 0, 0.25);
 }
 
-.flight-search-form button:active {
+.connection-search-form button:active {
   background-color: #9c0000;
   transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(212, 0, 0, 0.2);
 }
 
 /* Responsive layout */
@@ -80,16 +83,16 @@
     align-items: flex-start;
   }
 
-  .flight-search-form label {
+  .connection-search-form label {
     min-width: 100%;
   }
 
-  .flight-search-form input,
-  .flight-search-form select {
+  .connection-search-form input,
+  .connection-search-form select {
     width: 100%;
   }
 
-  .flight-search-form button {
+  .connection-search-form button {
     width: 100%;
     text-align: center;
   }
