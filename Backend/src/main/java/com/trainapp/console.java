@@ -60,5 +60,52 @@ public class console {
         }
     }
 
+    public List<Connection> SelectedConnection(
+            List<Connection> connections, // <-- input list to filter
+            int maxPriceParam,
+            int maxDurationParam,
+            String ticketClass,
+            String departureTimeParam,
+            String arrivalTimeParam,
+            String departureDay,
+            String arrivalDay) {
+
+        filterConnections filter = new filterConnections();
+
+        List<Connection> filtered = connections;
+
+        if (departureDay != null && !departureDay.isEmpty()) {
+            filtered = filter.filterByDayOfDeparture(filtered, departureDay);
+        }
+
+        if (arrivalDay != null && !arrivalDay.isEmpty()) {
+            filtered = filter.filterByDayOfArrival(filtered, arrivalDay);
+        }
+
+        if (departureTimeParam != null && !departureTimeParam.isEmpty()) {
+            filtered = filter.filterByDepartureTime(filtered, LocalTime.parse(departureTimeParam + ":00"));
+        }
+
+        if (arrivalTimeParam != null && !arrivalTimeParam.isEmpty()) {
+            filtered = filter.filterByArrivalTime(filtered, LocalTime.parse(arrivalTimeParam + ":00"));
+        }
+
+        if (ticketClass != null && !ticketClass.isEmpty()) {
+            if(ticketClass.equalsIgnoreCase("first-class") && maxPriceParam > 0){
+                filtered = filter.filterPriceFirstClass(maxPriceParam,filtered);
+            } else if (ticketClass.equalsIgnoreCase("second-class") && maxPriceParam != 0) {
+                filtered = filter.filterPriceSecondClass(maxPriceParam,filtered);
+            }
+
+        }
+        if(maxDurationParam > 0){
+            filtered = filter.filterDuration(maxDurationParam, filtered);
+        }
+
+        return filtered;
+    }
+
+
+
 
 }

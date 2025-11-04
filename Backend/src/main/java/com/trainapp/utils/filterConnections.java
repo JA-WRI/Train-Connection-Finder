@@ -20,18 +20,32 @@ public class filterConnections {
         return connections;
     }
     //Filtering the connections based on a given max duration
-    public List<Connection> filterDuration(int givenDuration, List<Connection> connections){
-        double tripDuration = 0.0;
+    public List<Connection> filterDuration(int givenDuration, List<Connection> connections) {
         List<Connection> filteredConnection = new ArrayList<>();
-        for (Connection connection: connections){
-            tripDuration = connection.getDuration();
-            if (tripDuration<=givenDuration){
+
+        for (Connection connection : connections) {
+            String durationStr = connection.getDuration().toString(); // e.g. "6h52m"
+
+            // Extract only the number before 'h'
+            int hours = 0;
+            if (durationStr.contains("h")) {
+                try {
+                    hours = Integer.parseInt(durationStr.substring(0, durationStr.indexOf("h")));
+                } catch (NumberFormatException e) {
+                    // Ignore invalid format
+                    continue;
+                }
+            }
+
+            // Compare only by hours
+            if (hours <= givenDuration) {
                 filteredConnection.add(connection);
             }
         }
 
         return filteredConnection;
     }
+
 
     public List<Connection> sortByFirstClassPriceAscending(List<Connection> connections){
         connections.sort(Comparator.comparing(Connection::getFirstClassPrice));
