@@ -8,8 +8,8 @@ public class ReservationService {
 
     public ReservationService(){}
 
-    public Reservation createReservation(User traveller, Ticket ticket){
-        Reservation reservation = new Reservation(traveller.getUserId(), traveller.getFirstName(), traveller.getLastName(), traveller.getAge(), ticket);
+    public Reservation createReservation(User traveller){
+        Reservation reservation = new Reservation(traveller.getUserId(), traveller.getFirstName(), traveller.getLastName(), traveller.getAge());
         return  reservation;
     }
 

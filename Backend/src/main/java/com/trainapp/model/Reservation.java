@@ -9,11 +9,10 @@ public class Reservation {
 
     private Ticket ticket;
 
-    public Reservation(String travelerId, String fname,String lname, int age, Ticket ticket) {
+    public Reservation(String travelerId, String fname,String lname, int age) {
         this.travelerId = travelerId;
         this.fname = fname;
         this.age = age;
-        this.ticket = ticket;
         this.lname = lname;
     }
 

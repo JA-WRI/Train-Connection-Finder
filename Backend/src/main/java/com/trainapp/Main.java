@@ -55,7 +55,9 @@ public class Main {
             return gson.toJson(connectionsDTO);
         });
 
-        //make a request for the user to select a trip!!
+        //make a request for the user to select a trip and create a trip
+
+        //make a request for user to add travellers
     }
 
 
