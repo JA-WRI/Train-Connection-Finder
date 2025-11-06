@@ -67,7 +67,7 @@ public class console {
         //save the connection to the database
         connectionService.saveConnection(connection);
         //create ticket
-        Ticket ticket = ticketService.createTicket();
+        Ticket ticket = ticketService.createTicket(connection);
         //start creating reservations
         Reservation reservation = reservationService.createReservation(user, ticket);
 
