@@ -5,6 +5,8 @@ import com.trainapp.model.*;
 import com.trainapp.services.*;
 import com.trainapp.utils.CSVReader;
 import com.trainapp.utils.filterConnections;
+import org.eclipse.jetty.util.DateCache;
+
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
@@ -61,17 +63,37 @@ public class console {
 //        return false;
 //    }
 
+
     public String bookTrip(Connection connection, UserDTO userDTO){
         //create user
         User user = userService.createUser(userDTO);
-        //save the connection to the database
+
+        //save connection in database
         connectionService.saveConnection(connection);
+
+        //start creating reservations
+        Reservation reservation = reservationService.createReservation(user);
+
         //create ticket
         Ticket ticket = ticketService.createTicket(connection);
-        //start creating reservations
-        Reservation reservation = reservationService.createReservation(user, ticket);
+
 
         return "Yay you booked a trip";
+    }
+
+    public String addTravellers(List<UserDTO> travelers, Connection connection){ // might have to search for the connection
+        for(UserDTO t: travelers){
+            //not that all these travellers will have the isBooker set to false
+            User traveler = userService.createUser(t);
+
+            //create reservation
+            Reservation reservation = reservationService.createReservation(traveler);
+
+            //create ticket
+            Ticket ticket = ticketService.createTicket(connection);
+
+        }
+        return "yay you added travellers";
     }
 
 
