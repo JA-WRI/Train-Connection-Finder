@@ -3,17 +3,18 @@ package com.trainapp.model;
 public class Reservation {
     private String reservationId;
     private String travelerId;
-    private String name;
-    private String age;
+    private String fname;
+    private String lname;
+    private int age;
 
     private Ticket ticket;
 
-    public Reservation(String reservationId, String travelerId, String name, String age, Ticket ticket) {
-        this.reservationId = reservationId;
+    public Reservation(String travelerId, String fname,String lname, int age, Ticket ticket) {
         this.travelerId = travelerId;
-        this.name = name;
+        this.fname = fname;
         this.age = age;
         this.ticket = ticket;
+        this.lname = lname;
     }
 
     public String getReservationId() {
@@ -32,19 +33,19 @@ public class Reservation {
         this.travelerId = travelerId;
     }
 
-    public String getName() {
-        return name;
+    public String getLname() {
+        return lname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -54,5 +55,13 @@ public class Reservation {
 
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 }

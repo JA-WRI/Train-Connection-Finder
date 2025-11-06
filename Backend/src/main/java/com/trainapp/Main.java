@@ -54,6 +54,8 @@ public class Main {
 
             return gson.toJson(connectionsDTO);
         });
+
+        //make a request for the user to select a trip!!
     }
 
 
