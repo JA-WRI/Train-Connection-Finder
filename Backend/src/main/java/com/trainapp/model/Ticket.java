@@ -5,8 +5,7 @@ public class Ticket {
     private String arrivalCity;
     private String departureCity;
 
-    public Ticket(String ticketId, String arrivalCity, String departureCity) {
-        this.ticketId = ticketId;
+    public Ticket(String arrivalCity, String departureCity) {
         this.arrivalCity = arrivalCity;
         this.departureCity = departureCity;
     }

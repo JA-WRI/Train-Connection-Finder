@@ -10,8 +10,7 @@ public class Trip {
     private User user;
     private List<Reservation> reservations = new ArrayList<>();
 
-    public Trip(String tripId, Connection connection, User user) {
-        this.tripId = tripId;
+    public Trip( Connection connection, User user) {
         this.connection = connection;
         this.user = user;
     }

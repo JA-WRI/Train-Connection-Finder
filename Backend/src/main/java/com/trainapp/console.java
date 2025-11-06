@@ -1,7 +1,8 @@
 package com.trainapp;
 
-import com.trainapp.model.Connection;
-import com.trainapp.services.ConnectionFinder;
+import com.trainapp.DTO.UserDTO;
+import com.trainapp.model.*;
+import com.trainapp.services.*;
 import com.trainapp.utils.CSVReader;
 import com.trainapp.utils.filterConnections;
 import java.time.LocalTime;
@@ -10,7 +11,14 @@ import java.util.Scanner;
 
 public class console {
 
+    private UserService userService;
+    private TripService tripService;
+    private TicketService ticketService;
+    private ReservationService reservationService;
+    private ConnectionService connectionService;
+
     public console(){}
+
 
     public void startProgram(){
         System.out.println("Starting Railway System Database Setup...");
@@ -52,7 +60,21 @@ public class console {
 //        }
 //        return false;
 //    }
-//
+
+    public String bookTrip(Connection connection, UserDTO userDTO){
+        //create user
+        User user = userService.createUser(userDTO);
+        //save the connection to the database
+        connectionService.saveConnection(connection);
+        //create ticket
+        Ticket ticket = ticketService.createTicket();
+        //start creating reservations
+        Reservation reservation = reservationService.createReservation(user, ticket);
+
+        return "Yay you booked a trip";
+    }
+
+
     public void displayConnections(List<Connection> connections){
         for (Connection connection : connections) {
             System.out.println(connection);

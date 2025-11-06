@@ -1,4 +1,5 @@
 package com.trainapp;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.trainapp.DTO.ConnectionDTO;

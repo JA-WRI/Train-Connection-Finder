@@ -8,10 +8,9 @@ public class User {
     private boolean isBooker;
     private Trip trip;
 
-    public User(String lastName, String firstName, String userId, int age, boolean isBooker) {
+    public User(String lastName, String firstName, int age, boolean isBooker) {
         this.lastName = lastName;
         this.firstName = firstName;
-        this.userId = userId;
         this.age = age;
         this.isBooker = isBooker;
     }

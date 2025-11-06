@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Connection {
+    String connectionId;
     LocalTime departureTime;
     LocalTime arrivalTime;
     Double duration;
@@ -14,6 +15,7 @@ public class Connection {
     String arrivalCity;
     int numOfRoutes;
     List<Route> routes;
+
 
     public Connection(){
 
@@ -54,6 +56,14 @@ public class Connection {
 
     public Double getDuration() {
         return duration;
+    }
+
+    public String getConnectionId() {
+        return connectionId;
+    }
+
+    public void setConnectionId(String connectionId) {
+        this.connectionId = connectionId;
     }
 
     public void setDuration(Double duration) {
