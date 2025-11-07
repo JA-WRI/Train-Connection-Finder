@@ -12,6 +12,7 @@ const ConnectionsPage = () => {
   const [filteredConnections, setFilteredConnections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [sortCriteria, setSortCriteria] = useState({ criteria: null, order: null });
 
   const capitalizeFirstLetter = (str) => {
     if (!str) return '';
@@ -60,6 +61,7 @@ console.log("Connections to send:\n\n\n\n\n\n\n", connections);
       body: JSON.stringify({
         connections: connections, // Send the full list of connections
         filters: filters,         // Send the filter parameters
+        sort: sortCriteria && sortCriteria.criteria ? sortCriteria : undefined,
       }),
     });
 
@@ -74,7 +76,13 @@ console.log("Connections to send:\n\n\n\n\n\n\n", connections);
   } finally {
     setLoading(false);
   }
-};
+ };
+
+ const handleSortChange = async (criteria, order) => {
+  const nextSort = { criteria, order };
+  setSortCriteria(nextSort);
+  await handleFilterChange({});
+ };
 
 
   return (
@@ -85,8 +93,12 @@ console.log("Connections to send:\n\n\n\n\n\n\n", connections);
           : "Available Train Connections"}
       </h2>
 
-      {/* Filter form */}
-      <ConnectionSearchForm onFilterChange={handleFilterChange} />
+      {/* Filter form + embedded sort */}
+      <ConnectionSearchForm
+        onFilterChange={handleFilterChange}
+        onSortChange={handleSortChange}
+        sortCriteria={sortCriteria}
+      />
 
       {loading && <p>Loading connections...</p>}
       {error && <p className="error">{error}</p>}

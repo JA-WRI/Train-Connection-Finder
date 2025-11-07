@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import SortSidebar from "./SortSidebar";
 import "../styles/connectionSearchForm.css"; 
 
-const ConnectionSearchForm = ({ onFilterChange }) => {
+const ConnectionSearchForm = ({ onFilterChange, onSortChange, sortCriteria }) => {
   const [filters, setFilters] = useState({
     departureDay: "",
     arrivalDay: "",
@@ -11,6 +12,7 @@ const ConnectionSearchForm = ({ onFilterChange }) => {
     maxPrice: "",
     maxDuration: "",
   });
+  const [isSortOpen, setIsSortOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,7 +99,17 @@ const ConnectionSearchForm = ({ onFilterChange }) => {
         />
       </div>
 
-      <button type="submit">Apply Filters</button>
+      <div style={{ display: "flex", gap: "8px" }}>
+        <button type="submit">Apply Filters</button>
+        <button type="button" onClick={() => setIsSortOpen(true)}>Sort</button>
+      </div>
+
+      <SortSidebar
+        isOpen={isSortOpen}
+        onClose={() => setIsSortOpen(false)}
+        onSortChange={(criteria, order) => onSortChange && onSortChange(criteria, order)}
+        sortCriteria={sortCriteria || { criteria: null, order: null }}
+      />
     </form>
   );
 };
