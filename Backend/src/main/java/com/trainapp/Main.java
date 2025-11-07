@@ -5,10 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.trainapp.DTO.ConnectionDTO;
 import com.trainapp.DTO.RouteDTO;
 import com.trainapp.utils.LocalTimeAdapter;
-import com.trainapp.utils.filterConnections;
 import com.trainapp.model.Connection;
 import com.trainapp.model.Route;
-import com.trainapp.console;  // Assuming 'console' is a class that contains the filtering logic
+import com.trainapp.services.BookingService;
+import com.trainapp.console;  // Contains the filtering and sorting logic
 import java.time.LocalTime;
 import java.util.List;
 import static spark.Spark.*;
@@ -154,7 +154,15 @@ public class Main {
                     ? filtersJson.get("maxDuration").getAsInt()
                     : Integer.MAX_VALUE;
 
-            // Apply your filtering logic
+            // Extract sorting parameters
+            String sortCriteria = null;
+            String sortOrder = null;
+            if (sortJson != null && sortJson.has("criteria") && sortJson.has("order")) {
+                sortCriteria = sortJson.get("criteria").getAsString();
+                sortOrder = sortJson.get("order").getAsString();
+            }
+
+            // Apply filtering and sorting logic (all in console.SelectedConnection)
             List<Connection> filteredConnections;
             try {
                 filteredConnections = console.SelectedConnection(
@@ -165,61 +173,14 @@ public class Main {
                         departureTime,
                         arrivalTime,
                         departureDay,
-                        arrivalDay
+                        arrivalDay,
+                        sortCriteria,
+                        sortOrder
                 );
             } catch (Exception e) {
-                System.err.println("Filtering failed: " + e.getMessage());
+                System.err.println("Filtering/sorting failed: " + e.getMessage());
                 e.printStackTrace();
                 filteredConnections = connections; // fallback to original list
-            }
-
-            // Apply sorting if provided
-            if (sortJson != null && sortJson.has("criteria") && sortJson.has("order")) {
-                String criteria = sortJson.get("criteria").getAsString();
-                String order = sortJson.get("order").getAsString();
-
-                filterConnections sorter = new filterConnections();
-
-                switch (criteria) {
-                    case "duration":
-                        if ("asc".equalsIgnoreCase(order)) {
-                            filteredConnections = sorter.AscenSortDuration(filteredConnections);
-                        } else {
-                            filteredConnections = sorter.DescenSortDuration(filteredConnections);
-                        }
-                        break;
-                    case "priceFirst":
-                        if ("asc".equalsIgnoreCase(order)) {
-                            filteredConnections = sorter.sortByFirstClassPriceAscending(filteredConnections);
-                        } else {
-                            filteredConnections = sorter.sortByFirstClassPriceDescending(filteredConnections);
-                        }
-                        break;
-                    case "priceSecond":
-                        if ("asc".equalsIgnoreCase(order)) {
-                            filteredConnections = sorter.sortBySecondClassPriceAscending(filteredConnections);
-                        } else {
-                            filteredConnections = sorter.sortBySecondClassPriceDescending(filteredConnections);
-                        }
-                        break;
-                    case "departureTime":
-                        // only ascending defined; reverse for desc
-                        filteredConnections = sorter.sortByDepartureTime(filteredConnections);
-                        if ("desc".equalsIgnoreCase(order)) {
-                            java.util.Collections.reverse(filteredConnections);
-                        }
-                        break;
-                    case "routesCount":
-                        // only ascending defined; reverse for desc
-                        filteredConnections = sorter.sortByNumRoutes(filteredConnections);
-                        if ("desc".equalsIgnoreCase(order)) {
-                            java.util.Collections.reverse(filteredConnections);
-                        }
-                        break;
-                    default:
-                        // no-op for unknown criteria
-                        break;
-                }
             }
 
             // Convert back to DTO for frontend
@@ -239,6 +200,171 @@ public class Main {
             }
 
             return gson.toJson(filteredConnectionsDTO);
+        });
+
+        // Endpoint to book a connection
+        post("/bookConnection", (req, res) -> {
+            res.type("application/json");
+
+            try {
+                String body = req.body();
+                System.out.println("Booking request: " + body);
+
+                var jsonObject = gson.fromJson(body, com.google.gson.JsonObject.class);
+
+                // Extract connection DTO
+                var connectionJson = jsonObject.getAsJsonObject("connection");
+                ConnectionDTO connectionDTO = gson.fromJson(connectionJson, ConnectionDTO.class);
+
+                // Extract user info
+                var userJson = jsonObject.getAsJsonObject("user");
+                String userName = userJson.get("name").getAsString();
+                int userAge = userJson.get("age").getAsInt();
+                String userId = userJson.get("id").getAsString();
+
+                // Convert ConnectionDTO to Connection model
+                java.util.List<Route> routes = new java.util.ArrayList<>();
+                if (connectionDTO.routes != null) {
+                    for (RouteDTO rdto : connectionDTO.routes) {
+                        Route r = new Route(
+                                null,
+                                rdto.departureCity,
+                                rdto.arrivalCity,
+                                LocalTime.parse(rdto.departureTime),
+                                LocalTime.parse(rdto.arrivalTime),
+                                rdto.trainType,
+                                rdto.daysOfOperation,
+                                rdto.firstClassTicketRate,
+                                rdto.secondClassTicketRate,
+                                false
+                        );
+                        routes.add(r);
+                    }
+                } else {
+                    // Fallback: create route from connection DTO
+                    Route r = new Route(
+                            null,
+                            connectionDTO.departureCity.toLowerCase(),
+                            connectionDTO.arrivalCity.toLowerCase(),
+                            LocalTime.parse(connectionDTO.departureTime),
+                            LocalTime.parse(connectionDTO.arrivalTime),
+                            null,
+                            null,
+                            connectionDTO.firstClassPrice,
+                            connectionDTO.secondClassPrice,
+                            false
+                    );
+                    routes.add(r);
+                }
+
+                Connection connection = new Connection(routes);
+
+                // Book the connection
+                BookingService bookingService = new BookingService();
+                int reservationId = bookingService.bookConnection(connection, userName, userAge, userId);
+
+                // Return success response
+                var response = new com.google.gson.JsonObject();
+                response.addProperty("success", true);
+                response.addProperty("reservationId", String.valueOf(reservationId));
+                response.addProperty("message", "Booking confirmed successfully");
+
+                res.status(200);
+                return gson.toJson(response);
+
+            } catch (Exception e) {
+                System.err.println("Booking error: " + e.getMessage());
+                e.printStackTrace();
+                res.status(500);
+                var errorResponse = new com.google.gson.JsonObject();
+                errorResponse.addProperty("success", false);
+                errorResponse.addProperty("error", "Failed to book connection: " + e.getMessage());
+                return gson.toJson(errorResponse);
+            }
+        });
+
+        // Endpoint to add a traveler to an existing trip
+        post("/addTraveler", (req, res) -> {
+            res.type("application/json");
+
+            try {
+                String body = req.body();
+                System.out.println("Add traveler request: " + body);
+
+                var jsonObject = gson.fromJson(body, com.google.gson.JsonObject.class);
+
+                // Extract booker's reservation ID
+                int bookerReservationId = jsonObject.get("bookerReservationId").getAsInt();
+
+                // Extract connection DTO
+                var connectionJson = jsonObject.getAsJsonObject("connection");
+                ConnectionDTO connectionDTO = gson.fromJson(connectionJson, ConnectionDTO.class);
+
+                // Extract traveler info
+                var travelerJson = jsonObject.getAsJsonObject("traveler");
+                String travelerName = travelerJson.get("name").getAsString();
+                int travelerAge = travelerJson.get("age").getAsInt();
+                String travelerId = travelerJson.get("id").getAsString();
+
+                // Convert ConnectionDTO to Connection model
+                java.util.List<Route> routes = new java.util.ArrayList<>();
+                if (connectionDTO.routes != null) {
+                    for (RouteDTO rdto : connectionDTO.routes) {
+                        Route r = new Route(
+                                null,
+                                rdto.departureCity,
+                                rdto.arrivalCity,
+                                LocalTime.parse(rdto.departureTime),
+                                LocalTime.parse(rdto.arrivalTime),
+                                rdto.trainType,
+                                rdto.daysOfOperation,
+                                rdto.firstClassTicketRate,
+                                rdto.secondClassTicketRate,
+                                false
+                        );
+                        routes.add(r);
+                    }
+                } else {
+                    // Fallback: create route from connection DTO
+                    Route r = new Route(
+                            null,
+                            connectionDTO.departureCity.toLowerCase(),
+                            connectionDTO.arrivalCity.toLowerCase(),
+                            LocalTime.parse(connectionDTO.departureTime),
+                            LocalTime.parse(connectionDTO.arrivalTime),
+                            null,
+                            null,
+                            connectionDTO.firstClassPrice,
+                            connectionDTO.secondClassPrice,
+                            false
+                    );
+                    routes.add(r);
+                }
+
+                Connection connection = new Connection(routes);
+
+                // Add the traveler
+                BookingService bookingService = new BookingService();
+                int travelerReservationId = bookingService.addTraveler(bookerReservationId, travelerName, travelerAge, travelerId, connection);
+
+                // Return success response
+                var response = new com.google.gson.JsonObject();
+                response.addProperty("success", true);
+                response.addProperty("reservationId", String.valueOf(travelerReservationId));
+                response.addProperty("message", "Traveler added successfully");
+
+                res.status(200);
+                return gson.toJson(response);
+
+            } catch (Exception e) {
+                System.err.println("Add traveler error: " + e.getMessage());
+                e.printStackTrace();
+                res.status(500);
+                var errorResponse = new com.google.gson.JsonObject();
+                errorResponse.addProperty("success", false);
+                errorResponse.addProperty("error", "Failed to add traveler: " + e.getMessage());
+                return gson.toJson(errorResponse);
+            }
         });
 
 

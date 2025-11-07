@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/connectionsCard.css";
 import ConnectionDetails from "./connectionDetails"
 
@@ -16,6 +17,11 @@ const ConnectionCard = ({ connection }) => {
   } = connection;
 
   const [showDetails, setShowDetails] = useState(false);
+  const navigate = useNavigate();
+
+  const handleBook = () => {
+    navigate("/booking", { state: { connection } });
+  };
 
   return (
     <>
@@ -47,19 +53,24 @@ const ConnectionCard = ({ connection }) => {
         <div className="details">
           {detailsAvailable ? (
             <button
-  className="link-button"
-  onClick={() => setShowDetails(true)}
->
-  Details
-</button>
+              className="link-button"
+              onClick={() => setShowDetails(true)}
+            >
+              Details
+            </button>
           ) : (
             <span className="unavailable">Not available</span>
           )}
         </div>
 
-        <div className="price">
-          <span className="price-value">${price}</span>
-          <div className="cabin">{cabinType}</div>
+        <div className="price-section">
+          <div className="price">
+            <span className="price-value">${price}</span>
+            <div className="cabin">{cabinType}</div>
+          </div>
+          <button className="book-button" onClick={handleBook}>
+            Book Now
+          </button>
         </div>
       </div>
     </div>

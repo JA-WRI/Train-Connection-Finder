@@ -19,26 +19,23 @@ public class filterConnections {
         connections.sort(Comparator.comparingDouble(Connection::getDuration).reversed());
         return connections;
     }
-    //Filtering the connections based on a given max duration
+    //Filtering the connections based on a given max duration (in hours)
     public List<Connection> filterDuration(int givenDuration, List<Connection> connections) {
         List<Connection> filteredConnection = new ArrayList<>();
 
         for (Connection connection : connections) {
-            String durationStr = connection.getDuration().toString(); // e.g. "6h52m"
-
-            // Extract only the number before 'h'
-            int hours = 0;
-            if (durationStr.contains("h")) {
-                try {
-                    hours = Integer.parseInt(durationStr.substring(0, durationStr.indexOf("h")));
-                } catch (NumberFormatException e) {
-                    // Ignore invalid format
-                    continue;
-                }
+            // getDuration() returns duration in minutes as a Double
+            Double durationInMinutes = connection.getDuration();
+            
+            if (durationInMinutes == null) {
+                continue; // Skip connections with null duration
             }
-
-            // Compare only by hours
-            if (hours <= givenDuration) {
+            
+            // Convert minutes to hours and compare
+            double durationInHours = durationInMinutes / 60.0;
+            
+            // Filter: keep connections with duration <= givenDuration (in hours)
+            if (durationInHours <= givenDuration) {
                 filteredConnection.add(connection);
             }
         }
