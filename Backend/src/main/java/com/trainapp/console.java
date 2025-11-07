@@ -104,5 +104,98 @@ public class console {
         }
     }
 
+    public List<Connection> SelectedConnection(
+            List<Connection> connections, // <-- input list to filter
+            int maxPriceParam,
+            int maxDurationParam,
+            String ticketClass,
+            String departureTimeParam,
+            String arrivalTimeParam,
+            String departureDay,
+            String arrivalDay,
+            String sortCriteria,
+            String sortOrder) {
+
+        filterConnections filter = new filterConnections();
+
+        List<Connection> filtered = connections;
+
+        if (departureDay != null && !departureDay.isEmpty()) {
+            filtered = filter.filterByDayOfDeparture(filtered, departureDay);
+        }
+
+        if (arrivalDay != null && !arrivalDay.isEmpty()) {
+            filtered = filter.filterByDayOfArrival(filtered, arrivalDay);
+        }
+
+        if (departureTimeParam != null && !departureTimeParam.isEmpty()) {
+            filtered = filter.filterByDepartureTime(filtered, LocalTime.parse(departureTimeParam + ":00"));
+        }
+
+        if (arrivalTimeParam != null && !arrivalTimeParam.isEmpty()) {
+            filtered = filter.filterByArrivalTime(filtered, LocalTime.parse(arrivalTimeParam + ":00"));
+        }
+
+        if (ticketClass != null && !ticketClass.isEmpty()) {
+            if(ticketClass.equalsIgnoreCase("first-class") && maxPriceParam > 0){
+                filtered = filter.filterPriceFirstClass(maxPriceParam,filtered);
+            } else if (ticketClass.equalsIgnoreCase("second-class") && maxPriceParam != 0) {
+                filtered = filter.filterPriceSecondClass(maxPriceParam,filtered);
+            }
+
+        }
+        if(maxDurationParam > 0){
+            filtered = filter.filterDuration(maxDurationParam, filtered);
+        }
+
+        // Apply sorting if provided
+        if (sortCriteria != null && !sortCriteria.isEmpty() && sortOrder != null && !sortOrder.isEmpty()) {
+            switch (sortCriteria) {
+                case "duration":
+                    if ("asc".equalsIgnoreCase(sortOrder)) {
+                        filtered = filter.AscenSortDuration(filtered);
+                    } else {
+                        filtered = filter.DescenSortDuration(filtered);
+                    }
+                    break;
+                case "priceFirst":
+                    if ("asc".equalsIgnoreCase(sortOrder)) {
+                        filtered = filter.sortByFirstClassPriceAscending(filtered);
+                    } else {
+                        filtered = filter.sortByFirstClassPriceDescending(filtered);
+                    }
+                    break;
+                case "priceSecond":
+                    if ("asc".equalsIgnoreCase(sortOrder)) {
+                        filtered = filter.sortBySecondClassPriceAscending(filtered);
+                    } else {
+                        filtered = filter.sortBySecondClassPriceDescending(filtered);
+                    }
+                    break;
+                case "departureTime":
+                    // only ascending defined; reverse for desc
+                    filtered = filter.sortByDepartureTime(filtered);
+                    if ("desc".equalsIgnoreCase(sortOrder)) {
+                        java.util.Collections.reverse(filtered);
+                    }
+                    break;
+                case "routesCount":
+                    // only ascending defined; reverse for desc
+                    filtered = filter.sortByNumRoutes(filtered);
+                    if ("desc".equalsIgnoreCase(sortOrder)) {
+                        java.util.Collections.reverse(filtered);
+                    }
+                    break;
+                default:
+                    // no-op for unknown criteria
+                    break;
+            }
+        }
+
+        return filtered;
+    }
+
+
+
 
 }

@@ -19,19 +19,30 @@ public class filterConnections {
         connections.sort(Comparator.comparingDouble(Connection::getDuration).reversed());
         return connections;
     }
-    //Filtering the connections based on a given max duration
-    public List<Connection> filterDuration(int givenDuration, List<Connection> connections){
-        double tripDuration = 0.0;
+    //Filtering the connections based on a given max duration (in hours)
+    public List<Connection> filterDuration(int givenDuration, List<Connection> connections) {
         List<Connection> filteredConnection = new ArrayList<>();
-        for (Connection connection: connections){
-            tripDuration = connection.getDuration();
-            if (tripDuration<=givenDuration){
+
+        for (Connection connection : connections) {
+            // getDuration() returns duration in minutes as a Double
+            Double durationInMinutes = connection.getDuration();
+            
+            if (durationInMinutes == null) {
+                continue; // Skip connections with null duration
+            }
+            
+            // Convert minutes to hours and compare
+            double durationInHours = durationInMinutes / 60.0;
+            
+            // Filter: keep connections with duration <= givenDuration (in hours)
+            if (durationInHours <= givenDuration) {
                 filteredConnection.add(connection);
             }
         }
 
         return filteredConnection;
     }
+
 
     public List<Connection> sortByFirstClassPriceAscending(List<Connection> connections){
         connections.sort(Comparator.comparing(Connection::getFirstClassPrice));

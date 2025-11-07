@@ -87,7 +87,8 @@ public class Connection {
     }
 
     public String getDepartureCity() {
-        return departureCity;
+        String substring = departureCity.substring(0, 1).toUpperCase();
+        return substring + departureCity.substring(1);
     }
 
     public void setDepartureCity(String departureCity) {
@@ -95,7 +96,8 @@ public class Connection {
     }
 
     public String getArrivalCity() {
-        return arrivalCity;
+        String substring = arrivalCity.substring(0, 1).toUpperCase();
+        return substring + arrivalCity.substring(1);
     }
 
     public void setArrivalCity(String arrivalCity) {

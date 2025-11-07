@@ -1,5 +1,7 @@
 package com.trainapp.database;
 
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class DatabaseInitializer {
@@ -83,8 +85,10 @@ public class DatabaseInitializer {
             CREATE TABLE IF NOT EXISTS reservations (
                 reservation_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 trip_id INTEGER NOT NULL,
+                traveler_id TEXT,
+                fname TEXT,
+                lname TEXT,
                 age INTEGER,
-                name TEXT,
                 FOREIGN KEY (trip_id) REFERENCES trips(trip_id) ON DELETE CASCADE
             );
             
