@@ -62,7 +62,7 @@ public class Main {
 
             // Parse the request body
             String body = req.body();
-            System.out.println("Received body: " + body); // helpful for debugging
+            System.out.println("Received body: " + body);
 
             var jsonObject = gson.fromJson(body, com.google.gson.JsonObject.class);
 
@@ -223,10 +223,13 @@ public class Main {
             }
 
             // Convert back to DTO for frontend
+            // Determine if first class based on ticketClass filter
+            boolean isFirstClass = ticketClass != null && ticketClass.equalsIgnoreCase("first-class");
+            
             List<ConnectionDTO> filteredConnectionsDTO;
             try {
                 filteredConnectionsDTO = filteredConnections.stream()
-                        .map(c -> new ConnectionDTO(c, false))
+                        .map(c -> new ConnectionDTO(c, isFirstClass))
                         .toList();
             } catch (Exception e) {
                 System.err.println("DTO mapping failed: " + e.getMessage());
