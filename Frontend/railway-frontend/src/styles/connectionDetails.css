@@ -56,6 +56,18 @@
   margin: 2px 0;
 }
 
+.route-days {
+  color: #555;
+  font-size: 13px;
+  margin: 4px 0;
+  font-weight: 500;
+}
+
+.route-days strong {
+  color: #333;
+  font-weight: 600;
+}
+
 .direct {
   text-align: center;
   color: #777;

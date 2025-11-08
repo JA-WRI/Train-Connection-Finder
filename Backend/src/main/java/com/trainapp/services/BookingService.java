@@ -21,7 +21,6 @@ public class BookingService {
         this.reservationRepository = new ReservationRepository();
         this.ticketRepository = new TicketRepository();
     }
-
     public int bookConnection(Connection connection, String userName, int userAge, String userId) throws SQLException {
         try (java.sql.Connection dbConnection = DatabaseConnection.getConnection()) {
             dbConnection.setAutoCommit(false); // Start transaction
@@ -51,8 +50,6 @@ public class BookingService {
             }
         }
     }
-
-
     public int addTraveler(int bookerReservationId, String travelerName, int travelerAge, String travelerId, Connection connection) throws SQLException {
         try (java.sql.Connection dbConnection = DatabaseConnection.getConnection()) {
             dbConnection.setAutoCommit(false); // Start transaction
@@ -73,11 +70,11 @@ public class BookingService {
                 // 4. Insert ticket for traveler
                 ticketRepository.insertTicket(dbConnection, travelerReservationId, travelerUserId, connection);
 
-                dbConnection.commit(); // Commit transaction
+                dbConnection.commit();
                 return travelerReservationId;
 
             } catch (SQLException e) {
-                dbConnection.rollback(); // Rollback on error
+                dbConnection.rollback();
                 throw e;
             }
         }

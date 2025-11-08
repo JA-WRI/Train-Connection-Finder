@@ -3,16 +3,19 @@ package com.trainapp.routes;
 import com.google.gson.Gson;
 import com.trainapp.controller.BookingController;
 import com.trainapp.controller.ConnectionController;
+import com.trainapp.controller.TripHistoryController;
 import static spark.Spark.*;
 
 public class Routes {
     
     private ConnectionController connectionController;
     private BookingController bookingController;
+    private TripHistoryController tripHistoryController;
     
     public Routes(Gson gson) {
         this.connectionController = new ConnectionController(gson);
         this.bookingController = new BookingController(gson);
+        this.tripHistoryController = new TripHistoryController(gson);
     }
     
     //seting all routes and CORS configuration
@@ -42,6 +45,9 @@ public class Routes {
         // Booking endpoints
         post("/bookConnection", bookingController::handleBookConnection);
         post("/addTraveler", bookingController::handleAddTraveler);
+
+        // Trip history endpoints
+        post("/getUserTrips", tripHistoryController::handleGetUserTrips);
     }
 }
 

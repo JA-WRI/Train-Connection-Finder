@@ -1,12 +1,15 @@
 package com.trainapp.repository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class ReservationRepository {
-    
 
     public int insertReservation(java.sql.Connection conn, int tripId, String firstName, String lastName, int age, String travelerId) throws SQLException {
-        String sql = "INSERT INTO reservations (trip_id, traveler_id, fname, lname, age) VALUES (?, ?, ?, ?, ?)";
+        // Set timestamp when creating reservation
+        LocalDateTime timestamp = LocalDateTime.now();
+        
+        String sql = "INSERT INTO reservations (trip_id, traveler_id, fname, lname, age, created_timestamp) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, tripId);
@@ -14,6 +17,7 @@ public class ReservationRepository {
             pstmt.setString(3, firstName);
             pstmt.setString(4, lastName);
             pstmt.setInt(5, age);
+            pstmt.setTimestamp(6, Timestamp.valueOf(timestamp));
             pstmt.executeUpdate();
             
             try (ResultSet rs = pstmt.getGeneratedKeys()) {

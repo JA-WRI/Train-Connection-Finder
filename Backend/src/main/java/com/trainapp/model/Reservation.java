@@ -1,11 +1,14 @@
 package com.trainapp.model;
 
+import java.time.LocalDateTime;
+
 public class Reservation {
     private String reservationId;
     private String travelerId;
     private String fname;
     private String lname;
     private int age;
+    private LocalDateTime createdTimestamp;
 
     private Ticket ticket;
 
@@ -14,6 +17,7 @@ public class Reservation {
         this.fname = fname;
         this.age = age;
         this.lname = lname;
+        this.createdTimestamp = LocalDateTime.now(); // Set timestamp when reservation is created
     }
 
     public String getReservationId() {
@@ -62,5 +66,13 @@ public class Reservation {
 
     public void setFname(String fname) {
         this.fname = fname;
+    }
+
+    public LocalDateTime getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
     }
 }

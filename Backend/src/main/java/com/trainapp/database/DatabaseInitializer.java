@@ -89,6 +89,7 @@ public class DatabaseInitializer {
                 fname TEXT,
                 lname TEXT,
                 age INTEGER,
+                created_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (trip_id) REFERENCES trips(trip_id) ON DELETE CASCADE
             );
             

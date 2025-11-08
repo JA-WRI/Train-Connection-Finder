@@ -17,6 +17,14 @@ const HomePage = () => {
       <div className="search-container">
         <SearchForm onSearch={handleSearch} />
       </div>
+      <div className="homepage-actions">
+        <button
+          onClick={() => navigate("/trips")}
+          className="view-trips-button"
+        >
+          View My Trips
+        </button>
+      </div>
     </div>
   );
 };
