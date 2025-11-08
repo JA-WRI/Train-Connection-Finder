@@ -1,4 +1,4 @@
-package com.trainapp.services;
+package com.trainapp.utils;
 
 import com.trainapp.database.DatabaseConnection;
 import com.trainapp.model.Connection;
@@ -164,3 +164,4 @@ public class ConnectionFinder {
     }
 
 }
+

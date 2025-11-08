@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Route {
 
-    // Attributes
     private String routeID;
     private String departureCity;
     private String arrivalCity;
@@ -17,7 +16,6 @@ public class Route {
     private double secondClassTicketRate;
     private boolean arriveNextDay;
 
-    // Constructor
     public Route(String routeID, String departureCity, String arrivalCity, LocalTime departureTime, LocalTime arrivalTime, String trainType, List<String> daysOfOperation, double firstClassTicketRate, double secondClassTicketRate, boolean arriveNextDay) {
         this.routeID = routeID;
         this.departureCity = departureCity;
@@ -56,15 +54,6 @@ public class Route {
     public void setArriveNextDay(boolean arriveNextDay) {this.arriveNextDay = arriveNextDay;}
 
     @Override
-//    public String toString() {
-//        String arrivalDisplay = arriveNextDay ?
-//                arrivalTime + " (+1d)" :
-//                arrivalTime.toString();
-//
-//        return String.format("model.Route %s: %s to %s | %s - %s | Train: %s | Days: %s | 1st: €%.2f | 2nd: €%.2f",
-//                routeID, departureCity, arrivalCity, departureTime, arrivalDisplay,
-//                trainType, daysOfOperation, firstClassTicketRate, secondClassTicketRate);
-//    }
     public String toString() {
         String arrivalDisplay = arriveNextDay ?
                 arrivalTime + " (+1d)" :
