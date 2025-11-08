@@ -1,0 +1,118 @@
+.sort-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  transition: background-color 0.3s ease;
+}
+
+.sort-sidebar {
+  background: #ffffff;
+  width: 340px;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 1.75rem 1.5rem;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 1rem;
+}
+
+.sidebar-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.close-sidebar {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #777;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.close-sidebar:hover {
+  background-color: #f0f0f0;
+  color: #222;
+}
+
+/* Sections */
+.sort-section {
+  margin-bottom: 1.75rem;
+}
+
+.sort-subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.9rem;
+}
+
+/* Options Layout */
+.sort-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+/* Buttons */
+.sort-button {
+  padding: 0.7rem 1rem;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  background-color: #fafafa;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.sort-button:hover {
+  border-color: #999;
+  background-color: #f3f3f3;
+}
+
+.sort-button.active {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.sort-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(50, 50, 50, 0.15);
+}
