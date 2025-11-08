@@ -18,7 +18,7 @@ Option 1:
 
 Option 2:
 1. Open Soen-342 on the IDE of your choice.
-2. Navigate to src/Main.java.
+2. Navigate to src/com.trainapp.Main.java.
 3. Click Run.
 4. Open Soen-342 on the IDE of your choice.
 5. Open SOEN-342/Frontend/railway-frontend.
