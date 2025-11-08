@@ -22,4 +22,5 @@ Option 2:
 3. Click Run.
 4. Open Soen-342 on the IDE of your choice.
 5. Open SOEN-342/Frontend/railway-frontend.
-6. Run `npm start`.
+6. Run `npm i`
+7. Run `npm start`.
