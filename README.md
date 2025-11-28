@@ -4,6 +4,7 @@ Jaden Wright-Maurais | 40276168 <br>
 Carla Chamandi | 40300354 <br>
 Emy Om Sobodker | 40300379 <br>
 
+Note: Contribution was split equally between team memebers. (Combination of shared task and pair programming)
 ## How to Run
 1. Download Java JDK.
 2. Download SQLite
