@@ -3,14 +3,57 @@ package com.trainapp.repository;
 import com.trainapp.model.Connection;
 import com.trainapp.model.Route;
 import java.sql.*;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectionRepository {
+public class ConnectionRepository implements Repository<Connection, Integer> {
     
     private RouteRepository routeRepository;
     
     public ConnectionRepository() {
         this.routeRepository = new RouteRepository();
+    }
+
+    @Override
+    public Integer insert(java.sql.Connection conn, Connection entity) throws SQLException {
+        return insertConnection(conn, entity);
+    }
+
+    @Override
+    public Connection findById(java.sql.Connection conn, Integer id) throws SQLException {
+        String sql = "SELECT connection_id, departure_city, arrival_city, departure_time, arrival_time, " +
+                    "duration_minutes, number_of_routes, price FROM connections WHERE connection_id = ?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Connection connection = new Connection();
+                    connection.setConnectionId(String.valueOf(rs.getInt("connection_id")));
+                    connection.setDepartureCity(rs.getString("departure_city"));
+                    connection.setArrivalCity(rs.getString("arrival_city"));
+                    
+                    Time departureTime = rs.getTime("departure_time");
+                    if (departureTime != null) {
+                        connection.setDepartureTime(departureTime.toLocalTime());
+                    }
+                    
+                    Time arrivalTime = rs.getTime("arrival_time");
+                    if (arrivalTime != null) {
+                        connection.setArrivalTime(arrivalTime.toLocalTime());
+                    }
+                    
+                    connection.setDuration((double) rs.getInt("duration_minutes"));
+                    connection.setNumOfRoutes(rs.getInt("number_of_routes"));
+                    connection.setFirstClassPrice(rs.getDouble("price"));
+                    
+                    return connection;
+                }
+            }
+        }
+        return null;
     }
 
     public int findOrInsertConnection(java.sql.Connection conn, Connection connection) throws SQLException {
@@ -31,7 +74,6 @@ public class ConnectionRepository {
                 }
             }
         }
-        
         // Insert new connection if not found
         return insertConnection(conn, connection);
     }
