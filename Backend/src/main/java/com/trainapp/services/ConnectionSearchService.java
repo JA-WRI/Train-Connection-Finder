@@ -22,12 +22,7 @@ public class ConnectionSearchService {
         
         // If no direct connections, search for indirect connections
         if (connections.isEmpty()) {
-            System.out.println("No direct connections found. Searching for indirect connections");
             connections = connectionFinder.searchIndirectConnections(departureCity, arrivalCity);
-        }
-        
-        if (connections.isEmpty()) {
-            System.out.println("No connections found.");
         }
         
         // Convert to DTOs

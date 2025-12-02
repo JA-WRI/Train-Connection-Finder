@@ -2,7 +2,7 @@ package com.trainapp;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.trainapp.routes.Routes;
+import com.trainapp.API.APIRoutes;
 import com.trainapp.utils.LocalTimeAdapter;
 import com.trainapp.utils.CSVReader;
 import java.time.LocalTime;
@@ -25,7 +25,7 @@ public class Main {
                 .create();
 
         // Configure routes
-        Routes routes = new Routes(gson);
-        routes.configureRoutes();
+        APIRoutes APIRoutes = new APIRoutes(gson);
+        APIRoutes.configureRoutes();
     }
 }
