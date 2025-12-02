@@ -16,7 +16,7 @@ public class TripHistoryController {
         this.gson = gson;
     }
 
-    public String handleGetUserTrips(Request req, Response res) {
+    public String viewTrip(Request req, Response res) {
         res.type("application/json");
         
         try {

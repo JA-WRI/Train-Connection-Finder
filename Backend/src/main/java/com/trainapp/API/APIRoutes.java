@@ -1,4 +1,4 @@
-package com.trainapp.routes;
+package com.trainapp.API;
 
 import com.google.gson.Gson;
 import com.trainapp.controller.BookingController;
@@ -6,13 +6,13 @@ import com.trainapp.controller.ConnectionController;
 import com.trainapp.controller.TripHistoryController;
 import static spark.Spark.*;
 
-public class Routes {
+public class APIRoutes {
     
     private ConnectionController connectionController;
     private BookingController bookingController;
     private TripHistoryController tripHistoryController;
     
-    public Routes(Gson gson) {
+    public APIRoutes(Gson gson) {
         this.connectionController = new ConnectionController(gson);
         this.bookingController = new BookingController(gson);
         this.tripHistoryController = new TripHistoryController(gson);
@@ -39,15 +39,15 @@ public class Routes {
         });
 
         // Connection endpoints
-        get("/searchConnections", connectionController::handleSearchConnections);
-        post("/filterConnections", connectionController::handleFilterConnections);
+        get("/searchConnections", connectionController::searchConnections);
+        post("/filterConnections", connectionController::filterConnections);
 
         // Booking endpoints
-        post("/bookConnection", bookingController::handleBookConnection);
-        post("/addTraveler", bookingController::handleAddTraveler);
+        post("/bookConnection", bookingController::bookTrip);
+        post("/addTraveler", bookingController::addTraveler);
 
         // Trip history endpoints
-        post("/getUserTrips", tripHistoryController::handleGetUserTrips);
+        post("/getUserTrips", tripHistoryController::viewTrip);
     }
 }
 

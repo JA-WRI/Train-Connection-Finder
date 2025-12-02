@@ -20,7 +20,7 @@ public class BookingController {
         this.gson = gson;
     }
 
-    public String handleBookConnection(Request req, Response res) {
+    public String bookTrip(Request req, Response res) {
         res.type("application/json");
         
         try {
@@ -62,7 +62,7 @@ public class BookingController {
         }
     }
 
-    public String handleAddTraveler(Request req, Response res) {
+    public String addTraveler(Request req, Response res) {
         res.type("application/json");
         
         try {

@@ -1,8 +1,38 @@
 package com.trainapp.repository;
 
+import com.trainapp.model.User;
 import java.sql.*;
 
-public class UserRepository {
+public class UserRepository implements Repository<User, Integer> {
+
+    @Override
+    public Integer insert(java.sql.Connection conn, User entity) throws SQLException {
+        int isBooker = entity.isBooker() ? 1 : 0;
+        return insertUser(conn, entity.getFirstName(), entity.getLastName(), entity.getAge(), isBooker);
+    }
+
+    @Override
+    public User findById(java.sql.Connection conn, Integer id) throws SQLException {
+        String sql = "SELECT user_id, first_name, last_name, age, is_booker FROM users WHERE user_id = ?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User(
+                        rs.getString("last_name"),
+                        rs.getString("first_name"),
+                        rs.getInt("age"),
+                        rs.getInt("is_booker") == 1
+                    );
+                    user.setUserId(String.valueOf(rs.getInt("user_id")));
+                    return user;
+                }
+            }
+        }
+        return null;
+    }
 
     public int insertUser(java.sql.Connection conn, String firstName, String lastName, int age, int isBooker) throws SQLException {
         String sql = "INSERT INTO users (first_name, last_name, age, is_booker) VALUES (?, ?, ?, ?)";
@@ -22,20 +52,6 @@ public class UserRepository {
             }
         }
         throw new SQLException("Failed to insert user");
-    }
-
-    public int insertBooker(java.sql.Connection conn, String name, int age, String userId) throws SQLException {
-        String[] nameParts = name.trim().split("\\s+", 2);
-        String firstName = nameParts.length > 0 ? nameParts[0] : name;
-        String lastName = nameParts.length > 1 ? nameParts[1] : "";
-        return insertUser(conn, firstName, lastName, age, 1);
-    }
-
-    public int insertTraveler(java.sql.Connection conn, String name, int age, String userId) throws SQLException {
-        String[] nameParts = name.trim().split("\\s+", 2);
-        String firstName = nameParts.length > 0 ? nameParts[0] : name;
-        String lastName = nameParts.length > 1 ? nameParts[1] : "";
-        return insertUser(conn, firstName, lastName, age, 0);
     }
 }
 

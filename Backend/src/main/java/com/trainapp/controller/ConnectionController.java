@@ -23,32 +23,28 @@ public class ConnectionController {
         this.gson = gson;
     }
 
-    public String handleSearchConnections(Request req, Response res) {
+    public String searchConnections(Request req, Response res) {
         try {
             String departureCity = req.queryParams("departureCity");
             String arrivalCity = req.queryParams("arrivalCity");
 
             // Call service to search for connections
             List<ConnectionDTO> connectionsDTO = connectionSearchService.searchConnections(departureCity, arrivalCity);
-            System.out.println("Returning " + connectionsDTO.size() + " connections");
 
             res.status(200);
             return gson.toJson(connectionsDTO);
+
         } catch (Exception e) {
-            System.err.println("Search error: " + e.getMessage());
-            e.printStackTrace();
             res.status(500);
             return gson.toJson("Error searching connections: " + e.getMessage());
         }
     }
 
-    public String handleFilterConnections(Request req, Response res) {
+    public String filterConnections(Request req, Response res) {
         res.type("application/json");
         
         try {
             String body = req.body();
-            System.out.println("Received body: " + body);
-
             JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
 
             // Extract request data

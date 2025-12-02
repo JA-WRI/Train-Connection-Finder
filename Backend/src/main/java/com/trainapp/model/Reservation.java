@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Reservation {
     private String reservationId;
+    private String tripId;
     private String travelerId;
     private String fname;
     private String lname;
@@ -12,12 +13,20 @@ public class Reservation {
 
     private Ticket ticket;
 
-    public Reservation(String travelerId, String fname,String lname, int age) {
+    public Reservation(String travelerId, String fname, String lname, int age) {
         this.travelerId = travelerId;
         this.fname = fname;
         this.age = age;
         this.lname = lname;
         this.createdTimestamp = LocalDateTime.now(); // Set timestamp when reservation is created
+    }
+
+    public String getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(String tripId) {
+        this.tripId = tripId;
     }
 
     public String getReservationId() {
