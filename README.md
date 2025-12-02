@@ -18,5 +18,5 @@ Note: Contribution was split equally between team memebers. (Combination of shar
 10. Run `npm start`.
 
 ## Demo
-https://github.com/user-attachments/assets/46096e93-83e8-43fd-97b1-3ddf80b768ea
+https://drive.google.com/file/d/1LJjGUGVbz0sJaBVaEp4KnmgRQwbSZgsU/view?usp=sharing
 
