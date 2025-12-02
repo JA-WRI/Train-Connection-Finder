@@ -16,3 +16,7 @@ Note: Contribution was split equally between team memebers. (Combination of shar
 8. Open SOEN-342/Frontend/railway-frontend.
 9. Run `npm i`
 10. Run `npm start`.
+
+## Demo
+https://github.com/user-attachments/assets/46096e93-83e8-43fd-97b1-3ddf80b768ea
+
