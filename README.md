@@ -7,7 +7,7 @@
 ## 📌 Project Overview
 
 A web application to **find and book train connections across Europe**.
-Users can search for connections between cities, book tickets, and view their old and existing bookings.  
+Users can search for connections between cities, book tickets, add travellers, and view their old and existing bookings.  
 
 The system is built with a **Spark Java backend**, a **SQLite database**, and a **React frontend** for a simple, responsive interface.
 
