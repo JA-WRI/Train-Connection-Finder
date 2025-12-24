@@ -22,7 +22,7 @@ The system is built with a **Spark Java backend**, a **SQLite database**, and a 
 1. Open Soen-342/Backend on the IDE of your choice (Recommended Intellij).
 2. Navigate to src/com.trainapp.Main.java.
 3. Click Run.
-4. Open SOEN-342/Frontend/railway-frontend (Recommended VSCode).
+4. Open SOEN-342/Frontend/railway-frontend in terminal.
 5. Run `npm i`
 6. Run `npm start`.
 
