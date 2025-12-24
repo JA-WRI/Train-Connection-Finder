@@ -19,7 +19,7 @@ public class RouteRepository implements Repository<Route, String> {
     public Route findById(java.sql.Connection conn, String id) throws SQLException {
         String sql = "SELECT route_id, departure_city, arrival_city, departure_time, arrival_time, " +
                     "train_type, days_of_operation, first_class_price, second_class_price, arrives_next_day " +
-                    "FROM APIRoutes WHERE route_id = ?";
+                    "FROM Routes WHERE route_id = ?";
         
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, id);
@@ -36,7 +36,7 @@ public class RouteRepository implements Repository<Route, String> {
     public String findRouteIdByAttributes(java.sql.Connection conn, Route route) throws SQLException {
         // If train_type is available, use it in the match
         if (route.getTrainType() != null && !route.getTrainType().isEmpty()) {
-            String sql = "SELECT route_id FROM APIRoutes WHERE " +
+            String sql = "SELECT route_id FROM Routes WHERE " +
                     "departure_city = ? AND arrival_city = ? AND " +
                     "departure_time = ? AND arrival_time = ? AND " +
                     "train_type = ?";
@@ -55,7 +55,7 @@ public class RouteRepository implements Repository<Route, String> {
             }
         } else {
             // Match without train_type
-            String sql = "SELECT route_id FROM APIRoutes WHERE " +
+            String sql = "SELECT route_id FROM Routes WHERE " +
                     "departure_city = ? AND arrival_city = ? AND " +
                     "departure_time = ? AND arrival_time = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -78,7 +78,7 @@ public class RouteRepository implements Repository<Route, String> {
         List<Route> routes = new ArrayList<>();
         String sql = "SELECT route_id, departure_city, arrival_city, departure_time, arrival_time, " +
                     "train_type, days_of_operation, first_class_price, second_class_price, arrives_next_day " +
-                    "FROM APIRoutes WHERE departure_city = ?";
+                    "FROM Routes WHERE departure_city = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, departureCity.toLowerCase());
