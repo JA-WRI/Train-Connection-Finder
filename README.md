@@ -1,21 +1,36 @@
-# Soen-342
-## Team Members 
-Jaden Wright-Maurais | 40276168 <br>
-Carla Chamandi | 40300354 <br>
-Emy Om Sobodker | 40300379 <br>
+# Train Connection Finder
 
-Note: Contribution was split equally between team memebers. (Combination of shared task and pair programming)
-## How to Run
-1. Download Java JDK (version 17 or later)
-2. Download SQLite
-3. Clone the repository.
-4. Open Soen-342/Backend on the IDE of your choice (Recommended Intellij).
-5. Navigate to src/com.trainapp.Main.java.
-6. Click Run.
-7. Open SOEN-342/Frontend/railway-frontend (Recommended VSCode).
-8. Run `npm i`
-9. Run `npm start`.
+[![React](https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+[![Spark Java](https://img.shields.io/badge/Spark%20Java-DC322F.svg?style=for-the-badge&logo=java&logoColor=white)](http://sparkjava.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-003B57.svg?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/index.html)
+
+## Project Overview
+
+A web application to **find and book train connections across Europe**.
+Users can search for connections between cities, book tickets, add travellers, and view their old and existing bookings.  
+
+The system is built with a **Spark Java backend**, a **SQLite database**, and a **React frontend** for a simple, responsive interface.
+
+## Setup
+
+### Prerequisites
+- Java 17+
+- Node.js & npm
+- SQLite
+
+### How to Run
+1. Open Soen-342/Backend on the IDE of your choice (Recommended Intellij).
+2. Navigate to src/com.trainapp.Main.java.
+3. Click Run.
+4. Open SOEN-342/Frontend/railway-frontend (Recommended VSCode).
+5. Run `npm i`
+6. Run `npm start`.
 
 ## Demo
-https://drive.google.com/file/d/1LJjGUGVbz0sJaBVaEp4KnmgRQwbSZgsU/view?usp=sharing
+
+
+https://github.com/user-attachments/assets/087fb3f1-2190-497e-b9e5-25de81dcf114
+
+
+Full Demo : https://drive.google.com/file/d/1LJjGUGVbz0sJaBVaEp4KnmgRQwbSZgsU/view?usp=sharing
 
