@@ -1,10 +1,10 @@
-# 🚆 Train Connection Finder
+# Train Connection Finder
 
 [![React](https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
 [![Spark Java](https://img.shields.io/badge/Spark%20Java-DC322F.svg?style=for-the-badge&logo=java&logoColor=white)](http://sparkjava.com/)
 [![SQLite](https://img.shields.io/badge/SQLite-003B57.svg?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/index.html)
 
-## 📌 Project Overview
+## Project Overview
 
 A web application to **find and book train connections across Europe**.
 Users can search for connections between cities, book tickets, add travellers, and view their old and existing bookings.  
